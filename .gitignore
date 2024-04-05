@@ -4,3 +4,7 @@
 .Ruserdata
 _targets
 docs
+#data-raw
+data
+!data/.gitkeep
+
