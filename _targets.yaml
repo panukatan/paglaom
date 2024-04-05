@@ -1,6 +1,6 @@
 cyclones:
   script: _targets_cyclones.R
-  store: _targets_cyclones
+  store: _targets
 heat:
   script: _targets_heat.R
-  store: _targets_heat
+  store: _targets
