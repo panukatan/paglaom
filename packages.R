@@ -1,8 +1,6 @@
-################################################################################
-#
-# Load packages required for standard workflows
-#
-################################################################################
+# Load package dependencies ----------------------------------------------------
+
+## Load packages required for standard workflows ----
 
 library(targets)
 library(tarchetypes)
@@ -14,3 +12,14 @@ library(dplyr)
 library(tidyr)
 library(openxlsx)
 library(ggplot2)
+
+
+## Load packages for web scraping and documents scraping ----
+library(rvest)
+library(httr)
+library(pdftools)
+
+
+## Load packages for file storage and archiving ----
+library(piggyback)
+

@@ -25,7 +25,7 @@ jobs:
           
       - name: Trust git repo
         run: |
-          git config --global --add safe.directory /__w/ihtm-targets-template/ihtm-targets-template
+          git config --global --add safe.directory /__w/pagasa_db/pagasa_db
           
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  
@@ -41,7 +41,9 @@ jobs:
         
       - name: Run workflow
         run: |
-          targets::tar_make()
+          targets::tar_make(
+            cyclones_peak_data_csv, script = "_targets_cyclones.R"
+          )
         shell: Rscript {0}
         
         
