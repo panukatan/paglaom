@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# A template R workflow for general data analysis
+# pagasa_db:
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -18,7 +18,7 @@ This repository is a template for a
 
 The project repository is structured as follows:
 
-    sc-policy-review
+    pagasa_db
         |-- .github/
           |-- workflows/
         |-- data/
