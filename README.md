@@ -1,9 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pagasa_db:
+# PAGASA Database
 
 <!-- badges: start -->
+
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![test targets
+workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml/badge.svg)](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml)
+[![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
 This repository is a template for a
@@ -47,10 +54,7 @@ The project repository is structured as follows:
   restricted and are only distributed to eligible members of the
   project. This directory is kept here to maintain reproducibility of
   project directory structure and ensure that the workflow runs as
-  expected. Those who are collaborating on this project and who have
-  permissions to use the raw datasets should include their copies of the
-  raw dataset into this directory in their local versions of this
-  repository.
+  expected.
 
 - `outputs/` contains compiled reports and figures produced by the
   workflow.

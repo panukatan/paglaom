@@ -8,10 +8,10 @@
 suppressPackageStartupMessages(source("packages.R"))
 for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 
-## Create targets and list targets objects -------------------------------------
 
-### Data targets
-data_targets <- tar_plan(
+## Download targets ------------------------------------------------------------
+
+download_targets <- tar_plan(
   ### Set PAGASA heat index pubfiles URL ----
   tar_target(
     name = heat_index_pubfiles_url,
@@ -22,60 +22,55 @@ data_targets <- tar_plan(
     name = heat_index_links,
     command = heat_index_get_image_urls(heat_index_pubfiles_url)
   ),
-  ### Get download URLs ----
-  tar_target(
-    name = heat_index_links_urls,
-    command = heat_index_links$links
-  ),
-  ### Get download dates ----
-  tar_target(
-    name = heat_index_links_dates,
-    command = heat_index_links$date
-  ),
   ### Download heat index images ----
   tar_target(
     name = heat_index_download_files,
     command = heat_index_download_image_files(
-      heat_index_url = heat_index_links_urls,
-      .date = heat_index_links_dates,
+      heat_index_url = heat_index_links$links,
+      .date = heat_index_links$date,
       directory = "data-raw",
       overwrite = FALSE
     ),
-    pattern = map(heat_index_links_urls, heat_index_links_dates),
+    pattern = map(heat_index_links$links, heat_index_links$date),
     format = "file"
-  )  
+  )
 )
 
 
-### Processing targets
+## Data targets ----------------------------------------------------------------
+data_targets <- tar_plan(
+)
+
+
+## Processing targets ----------------------------------------------------------
 processing_targets <- tar_plan(
   
 )
 
 
-### Analysis targets
+## Analysis targets ------------------------------------------------------------
 analysis_targets <- tar_plan(
   
 )
 
 
-### Output targets
+## Output targets --------------------------------------------------------------
 output_targets <- tar_plan(
   
 )
 
 
-### Reporting targets
+## Reporting targets -----------------------------------------------------------
 report_targets <- tar_plan(
   
 )
 
 
-### Deploy targets
+## Deploy targets --------------------------------------------------------------
 deploy_targets <- tar_plan(
-  
+
 )
 
 
-## List targets
+## List targets ----------------------------------------------------------------
 all_targets()
