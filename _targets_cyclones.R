@@ -21,7 +21,7 @@ download_targets <- tar_plan(
     name = cyclone_reports_download_files,
     command = cyclones_download_report(
       url_link = cyclone_reports_links,
-      directory = "data-raw/cyclones"
+      directory = "data-raw"
     ),
     pattern = map(cyclone_reports_links),
     format = "file"
