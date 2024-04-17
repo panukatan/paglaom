@@ -5,7 +5,7 @@
 ################################################################################
 
 ## Setup workflow using project-wide settings ----------------------------------
-source("_targets_setup")
+source("_targets_setup.R")
 
 
 ## Download targets ------------------------------------------------------------
