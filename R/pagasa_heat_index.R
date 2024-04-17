@@ -48,7 +48,6 @@ heat_index_get_image_urls <- function(.url = "https://pubfiles.pagasa.dost.gov.p
 #' 
 #' @export
 #'
-#'
 
 heat_index_download_image_files <- function(heat_index_url,
                                             .date,

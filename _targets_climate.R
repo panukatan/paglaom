@@ -1,12 +1,11 @@
 ################################################################################
 #
-# General Targets Workflow
+# Targets workflow for climate data download, extraction, and processing
 #
 ################################################################################
 
-## Load libraries and custom functions -----------------------------------------
-suppressPackageStartupMessages(source("packages.R"))
-for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
+## Setup workflow using project-wide settings ----------------------------------
+source("_targets_setup")
 
 
 ## Download targets ------------------------------------------------------------
