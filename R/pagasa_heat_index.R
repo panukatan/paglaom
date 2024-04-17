@@ -67,23 +67,11 @@ heat_index_download_image_files <- function(heat_index_url,
   ## Check if files to download are already found in download_dir ----
   dir_files <- list.files(download_dir)
   
-  if (overwrite) {
+  if (overwrite | !basename(heat_index_url) %in% dir_files) {
     download.file(
       url = heat_index_url,
-      destfile = file.path(download_dir, basename(heat_index_url)),
-      headers = c(
-        "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.3"
-      )
+      destfile = file.path(download_dir, basename(heat_index_url))
     )
-  } else {
-    if (!basename(heat_index_url) %in% dir_files)
-      download.file(
-        url = heat_index_url,
-        destfile = file.path(download_dir, basename(heat_index_url)),
-        headers = c(
-          "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.3"
-        )
-      )
   }
 
   file.path(download_dir, basename(heat_index_url))
@@ -91,4 +79,33 @@ heat_index_download_image_files <- function(heat_index_url,
 
 
   
+#'
+#' Read heat index data from PNG
+#'
+#'
+#'
+
+heat_index_read_png_file <- function(png_file) {
+  magick::image_read(path = png_file) |>
+    magick::image_write(
+      path = stringr::str_replace(
+        string = png_file, pattern = "png", replacement = "pdf"
+      ),
+      format = "pdf"
+    )
+  
+  
+  png_data <- magick::image_read(path = png_file) |>
+    magick::image_convert(type = "Grayscale") |>
+    magick::image_deskew() |>
+    magick::image_resize() |> 
+    tesseract::ocr()
+
+  df <- data.table::fread(text = png_data)
+    
+}
+
+
+
+
   

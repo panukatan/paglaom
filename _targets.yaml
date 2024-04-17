@@ -4,3 +4,6 @@ cyclones:
 heat:
   script: _targets_heat.R
   store: _targets
+climate:
+  script: _targets_climate.R
+  store: _targets

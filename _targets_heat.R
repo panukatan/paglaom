@@ -20,7 +20,8 @@ data_targets <- tar_plan(
   ### Get download links ----
   tar_target(
     name = heat_index_links,
-    command = heat_index_get_image_urls(heat_index_pubfiles_url)
+    command = heat_index_get_image_urls(heat_index_pubfiles_url),
+    cue = tar_cue("always")
   ),
   ### Get download URLs ----
   tar_target(

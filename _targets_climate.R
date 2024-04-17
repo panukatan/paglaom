@@ -12,27 +12,33 @@ for (f in list.files(here::here("R"), full.names = TRUE)) source (f)
 ## Download targets ------------------------------------------------------------
 
 download_targets <- tar_plan(
-  ### Set PAGASA heat index pubfiles URL ----
+  ### Set PAGASA climate pubfiles URL ----
   tar_target(
-    name = heat_index_pubfiles_url,
-    command = "https://pubfiles.pagasa.dost.gov.ph/iaas/heat_index/"
+    name = climate_pubfiles_url,
+    command = "https://pubfiles.pagasa.dost.gov.ph/pagasaweb/files/cad/"
   ),
-  ### Get download links ----
+  ### Get directories links ----
   tar_target(
-    name = heat_index_links,
-    command = heat_index_get_image_urls(heat_index_pubfiles_url)
+    name = climate_directory_urls,
+    command = climate_get_pdf_directory_urls(climate_pubfiles_url)
   ),
-  ### Download heat index images ----
+  ### Get PDF download links ----
   tar_target(
-    name = heat_index_download_files,
-    command = heat_index_download_image_files(
-      heat_index_url = heat_index_links$links,
-      .date = heat_index_links$date,
+    name = climate_pdf_urls,
+    command = climate_get_pdf_urls(climate_directory_urls),
+    pattern = map(climate_directory_urls)
+  ),
+  ### Download climate data ----
+  tar_target(
+    name = climate_download_files,
+    command = climate_download_pdfs(
+      pdf_url = climate_pdf_urls,
       directory = "data-raw",
       overwrite = FALSE
     ),
-    pattern = map(heat_index_links$links, heat_index_links$date),
-    format = "file"
+    pattern = map(climate_pdf_urls),
+    format = "file",
+    error = "continue"
   )
 )
 
