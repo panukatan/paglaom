@@ -712,6 +712,18 @@
       ],
       "Hash": "680ad542fbcf801442c83a6ac5a2126c"
     },
+    "magick": {
+      "Package": "magick",
+      "Version": "2.8.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "curl",
+        "magrittr"
+      ],
+      "Hash": "3f6bcbb8a0c1c9365b2f02d5d04ad7bc"
+    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",
@@ -1188,6 +1200,20 @@
         "yaml"
       ],
       "Hash": "35b83348e5cf547715687c93ce5c2126"
+    },
+    "tesseract": {
+      "Package": "tesseract",
+      "Version": "5.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "curl",
+        "digest",
+        "pdftools",
+        "rappdirs"
+      ],
+      "Hash": "4d5bcc9e9634df084ce576876176a72e"
     },
     "tibble": {
       "Package": "tibble",
