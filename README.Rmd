@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# PAGASA Database
+# An R workflow for curation of Philippine Atmospheric, Geophysical, and Astronomical Services Administration (PAGASA) datasets
 
 <!-- badges: start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -21,14 +21,28 @@ knitr::opts_chunk$set(
 
 This repository is a [`docker`](https://www.docker.com/get-started)-containerised, [`{targets}`](https://docs.ropensci.org/targets/)-based, [`{renv}`](https://rstudio.github.io/renv/articles/renv.html)-enabled [`R`](https://cran.r-project.org/) workflow for the retrieval, processing, and curation of various Philippine Atmospheric, Geophysical, and Astronomical Services Administration (PAGASA) publicly available datasets.
 
-## About the Project
+## Why `paglaom`?
+
+The word `paglaom` (pronounced as */paɡˈlaʔom/, [pʌɡˈl̪a.ʔɔm]*) is Bisaya (one of up to 187 languages spoken in the Philippines in addition to Filipino, which is the national language, and English, which is the language of instruction in the country) for hope. [PAGASA](https://pagasa.dost.gov.ph), the national meteorological and hydrological services agency of the Philippines, draws its name from the Filipino word *pag-asa* which means hope. The repository name choice, hence, is a play on these words and also a way to showcase the richness and diversity that exists in the Pilippines.
+
+The `paglaom` project aims to maintain a database of curated datasets on varios atmospheric, geophysical, and astronomical phenomena that are made publicly available by PAGASA on their website. These datasets tend to be summaries of the multitude of data that PAGASA collects on a high frequency basis. They also tend to be in formats that are not machine-readable (e.g., PDF, PNG, HTML formats) meant for reporting to the Philippine population rather than actual datasets that are usable for academic and/or professional research. PAGASA does provide more granular and expansive datasets for research purposes through a specific data request process. The `paglaom` project doesn't aim to perform research on the summarised datasets provided publicly on the PAGASA website. Rather, the project aims to showcase publicly avaialble data that can be used for educational purposes some of which are:
+
+* for students who need to make a report on topics covered by PAGASA's summarised data for a school assignment or project;
+
+* for individuals who have specific interest in one of the natural phenomena that PAGASA monitors and would like to get raw summarised data in a format that is usable and transferrable into other formats;
+
+* for data visualisation learners and aficionados who want to try on working on data about the various natural phenomena available from PAGASA and create unique and interesting plots and graphics.
+
+The broader and more blue skies vision of the `paglaom` project is to contribute to the increasing interest in science, technology, engineering, and mathematics (STEM) sciences particularly in the Philippines with a collection that showcases topics and data that are homegrown and embedded into the fabric of Philippine life.
+
+Whilst the `paglaom` by its name and the nature of the data it curates has an inherent Filipino audience, it is hoped that those outside of the Philippines will also find the information within useful in similar contexts described above.
 
 ## Repository Structure
 
 The project repository is structured as follows:
 
 ```
-pagasa_db
+paglaom
     |-- .github/
     |-- data/
     |-- data-raw/
