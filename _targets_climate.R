@@ -1,6 +1,6 @@
 ################################################################################
 #
-# General Targets Workflow
+# Targets workflow for climate data download, extraction, and processing
 #
 ################################################################################
 
@@ -11,45 +11,39 @@ source("_targets_setup.R")
 ## Download targets ------------------------------------------------------------
 
 download_targets <- tar_plan(
-  ### Get download links ----
+  ### Set PAGASA climate pubfiles URL ----
   tar_target(
-    name = cyclone_reports_links,
-    command = cyclones_get_report_links()
+    name = climate_pubfiles_url,
+    command = "https://pubfiles.pagasa.dost.gov.ph/pagasaweb/files/cad/"
   ),
-  ### Download reports ----
+  ### Get directories links ----
   tar_target(
-    name = cyclone_reports_download_files,
-    command = cyclones_download_report(
-      url_link = cyclone_reports_links,
-      directory = "data-raw"
+    name = climate_directory_urls,
+    command = climate_get_pdf_directory_urls(climate_pubfiles_url)
+  ),
+  ### Get PDF download links ----
+  tar_target(
+    name = climate_pdf_urls,
+    command = climate_get_pdf_urls(climate_directory_urls),
+    pattern = map(climate_directory_urls)
+  ),
+  ### Download climate data ----
+  tar_target(
+    name = climate_download_files,
+    command = climate_download_pdfs(
+      pdf_url = climate_pdf_urls,
+      directory = "data-raw",
+      overwrite = FALSE
     ),
-    pattern = map(cyclone_reports_links),
-    format = "file"
+    pattern = map(climate_pdf_urls),
+    format = "file",
+    error = "continue"
   )
 )
 
 
 ## Data targets ----------------------------------------------------------------
 data_targets <- tar_plan(
-  ### Process cyclones peak data ----
-  tar_target(
-    name = cyclones_peak_data,
-    command = cyclones_process_peak_data(
-      path_to_report = cyclone_reports_download_files
-    ),
-    pattern = map(cyclone_reports_download_files)
-  ),
-  ### Output cyclones peak data as CSV ----
-  tar_target(
-    name = cyclones_peak_data_csv,
-    command = {
-      write.csv(
-        cyclones_peak_data, file = "data/cyclones.csv", row.names = FALSE
-      )
-      "data/cyclones.csv"
-    },
-    format = "file"
-  )
 )
 
 

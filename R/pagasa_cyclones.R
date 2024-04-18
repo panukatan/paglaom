@@ -13,18 +13,16 @@
 #' 
 #'
 
-cyclones_get_report_links <- function(url = "https://www.pagasa.dost.gov.ph/tropical-cyclone/publications/annual-report") {
-  ## Quiet down error on SSL ----
-  httr::config(ssl_verifypeer = 0L) |>
-    httr::set_config()
-  
+cyclones_get_report_links <- function(.url = "https://pubfiles.pagasa.dost.gov.ph/pagasaweb/files/tamss/weather/tcsummary/") {
   ## Initiate an HTML session ----
-  url_session <- rvest::session(url)
+  pagasa_session <- rvest::session(.url)
   
   ## Retrieve links ----
-  url_session |>
-    rvest::html_elements(css = ".panel .panel-body li a") |>
-    rvest::html_attr(name = "href")
+  pagasa_session |>
+    rvest::html_elements(css = "pre a") |>
+    rvest::html_attr(name = "href") |>
+    (\(x) x[stringr::str_detect(string = x, pattern = "PAGASA_ARTC")])() |>
+    (\(x) paste0(.url, x))()
 }
 
 
@@ -48,12 +46,15 @@ cyclones_get_report_links <- function(url = "https://www.pagasa.dost.gov.ph/trop
 #'
 
 cyclones_download_report <- function(url_link, directory) {
+  ## Create directory path to cyclones ----
+  dir_path <- file.path(directory, "cyclones")
+  
   ## Check if directory exists; if not create ----
-  if (!dir.exists(directory))
-    dir.create(directory, showWarnings = FALSE, recursive = TRUE)
+  if (!dir.exists(dir_path))
+    dir.create(dir_path, showWarnings = FALSE, recursive = TRUE)
   
   ## Create file path to download ----
-  path <- file.path(directory, basename(url_link))
+  path <- file.path(dir_path, basename(url_link))
 
   ## Download file/s ----
   Map(
@@ -65,7 +66,6 @@ cyclones_download_report <- function(url_link, directory) {
   ## Return path/s ----
   path
 }
-
 
 
 #'

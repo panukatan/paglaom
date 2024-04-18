@@ -1,16 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pagasa_db:
+# PAGASA Database
 
 <!-- badges: start -->
+
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![test targets
+workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml/badge.svg)](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml)
+[![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
-This repository is a template for a
+This repository is a
 [`docker`](https://www.docker.com/get-started)-containerised,
 [`{targets}`](https://docs.ropensci.org/targets/)-based,
 [`{renv}`](https://rstudio.github.io/renv/articles/renv.html)-enabled
-[`R`](https://cran.r-project.org/) workflow for general data analysis.
+[`R`](https://cran.r-project.org/) workflow for the retrieval,
+processing, and curation of various Philippine Atmospheric, Geophysical,
+and Astronomical Services Administration (PAGASA) publicaly available
+datasets.
 
 ## About the Project
 
@@ -20,19 +30,21 @@ The project repository is structured as follows:
 
     pagasa_db
         |-- .github/
-          |-- workflows/
         |-- data/
         |-- data-raw/
         |-- outputs/
         |-- R/
         |-- reports
         |-- renv
-          |-- library/
-          |-- activate.R
         |-- renv.lock
         |-- .Rprofile
         |-- packages.R
+        |-- _targets_climate.R
+        |-- _targets_cyclones.R
+        |-- _targets_heat.R
+        |-- _targets_setup.R
         |-- _targets.R
+        |-- _targets.yaml
 
 - `.github` contains project testing and automated deployment of outputs
   workflows via continuous integration and continuous deployment (CI/CD)
@@ -47,10 +59,7 @@ The project repository is structured as follows:
   restricted and are only distributed to eligible members of the
   project. This directory is kept here to maintain reproducibility of
   project directory structure and ensure that the workflow runs as
-  expected. Those who are collaborating on this project and who have
-  permissions to use the raw datasets should include their copies of the
-  raw dataset into this directory in their local versions of this
-  repository.
+  expected.
 
 - `outputs/` contains compiled reports and figures produced by the
   workflow.
@@ -81,8 +90,11 @@ The project repository is structured as follows:
 - `packages.R` file lists out all R package dependencies required by the
   workflow.
 
-- `_targets.R` file defines the steps in the workflow’s data ingest,
-  data processing, data analysis, and reporting pipeline.
+- `_targets*.R` files define the steps in the workflow’s data ingest,
+  data processing, data analysis, and reporting pipelines.
+
+- `_targets.yaml` file defines the different targets sub-projects within
+  this project.
 
 ## Reproducibility
 

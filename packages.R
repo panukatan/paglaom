@@ -18,6 +18,8 @@ library(ggplot2)
 library(rvest)
 library(httr)
 library(pdftools)
+library(tesseract)
+library(magick)
 
 
 ## Load packages for file storage and archiving ----

@@ -21,7 +21,8 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y --no-install-recommends \
-          libxt6 libglpk-dev libpoppler-cpp-dev
+          libxt6 libglpk-dev libpoppler-cpp-dev libmagick++-dev \
+          libtesseract-dev libleptonica-dev tesseract-ocr-eng
           
       - name: Trust git repo
         run: |
