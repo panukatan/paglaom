@@ -65,10 +65,10 @@ engineering, and mathematics (STEM) sciences particularly in the
 Philippines with a collection that showcases topics and data that are
 homegrown and embedded into the fabric of Philippine life.
 
-Whilst the `paglaom` by its name and the nature of the data it curates
-has an inherent Filipino audience, it is hoped that those outside of the
-Philippines will also find the information within useful in similar
-contexts described above.
+Whilst the `paglaom` project by its name and the nature of the data it
+curates has an inherent Filipino audience, it is hoped that those
+outside of the Philippines will also find the information within useful
+in similar contexts described above.
 
 ## Repository Structure
 
@@ -141,6 +141,20 @@ The project repository is structured as follows:
 
 - `_targets.yaml` file defines the different targets sub-projects within
   this project.
+
+## The workflow
+
+Currently, the project curates the following datasets:
+
+1.  Tropical cyclones data for various cyclones entering the Philippine
+    area of responsibility since 2017;
+
+2.  Daily heat index data from various data collection points in the
+    Philippines;
+
+3.  Climatological extremes and normals data over time; and,
+
+4.  Daily dam water level data.
 
 ## Reproducibility
 

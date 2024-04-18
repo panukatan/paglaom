@@ -7,3 +7,6 @@ heat:
 climate:
   script: _targets_climate.R
   store: _targets
+dam:
+  script: _targets_dam.R
+  store: _targets
