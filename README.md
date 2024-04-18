@@ -13,11 +13,14 @@ workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-
 [![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
-This repository is a template for a
+This repository is a
 [`docker`](https://www.docker.com/get-started)-containerised,
 [`{targets}`](https://docs.ropensci.org/targets/)-based,
 [`{renv}`](https://rstudio.github.io/renv/articles/renv.html)-enabled
-[`R`](https://cran.r-project.org/) workflow for general data analysis.
+[`R`](https://cran.r-project.org/) workflow for the retrieval,
+processing, and curation of various Philippine Atmospheric, Geophysical,
+and Astronomical Services Administration (PAGASA) publicaly available
+datasets.
 
 ## About the Project
 
@@ -27,19 +30,21 @@ The project repository is structured as follows:
 
     pagasa_db
         |-- .github/
-          |-- workflows/
         |-- data/
         |-- data-raw/
         |-- outputs/
         |-- R/
         |-- reports
         |-- renv
-          |-- library/
-          |-- activate.R
         |-- renv.lock
         |-- .Rprofile
         |-- packages.R
+        |-- _targets_climate.R
+        |-- _targets_cyclones.R
+        |-- _targets_heat.R
+        |-- _targets_setup.R
         |-- _targets.R
+        |-- _targets.yaml
 
 - `.github` contains project testing and automated deployment of outputs
   workflows via continuous integration and continuous deployment (CI/CD)
@@ -85,8 +90,11 @@ The project repository is structured as follows:
 - `packages.R` file lists out all R package dependencies required by the
   workflow.
 
-- `_targets.R` file defines the steps in the workflow’s data ingest,
-  data processing, data analysis, and reporting pipeline.
+- `_targets*.R` files define the steps in the workflow’s data ingest,
+  data processing, data analysis, and reporting pipelines.
+
+- `_targets.yaml` file defines the different targets sub-projects within
+  this project.
 
 ## Reproducibility
 

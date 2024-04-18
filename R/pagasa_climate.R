@@ -37,6 +37,7 @@ climate_get_pdf_directory_urls <- function(.url = "https://pubfiles.pagasa.dost.
 #'
 #' @export
 #'
+
 climate_get_pdf_urls <- function(url_dir) {
   pagasa_session <- rvest::session(url_dir)
   
@@ -48,9 +49,24 @@ climate_get_pdf_urls <- function(url_dir) {
 
 
 #'
+#' Download climate data PDFs from PAGASA pubfiles URL
+#' 
+#' @param pdf_url A URL for a specific climate data PDF from PAGASA pubfiles
+#' @param directory A character value for name of directory to store downloaded
+#'   files to. Default is *"data-raw"*.
+#' @param overwrite Should a file with the same name in `directory` be
+#'   overwritten? Default to FALSE.
+#'   
+#' @returns A  file path or a vector of file paths to downloaded climate data 
+#'   PDFs
+#' 
+#' @examples
+#' climate_download_pdf()
 #'
+#' @rdname climate_download
+#' @export
 #'
-#'
+
 climate_download_pdf <- function(pdf_url, 
                                  directory = "data-raw", 
                                  overwrite = FALSE) {
@@ -62,20 +78,24 @@ climate_download_pdf <- function(pdf_url,
   
   if (!dir.exists(download_dir)) dir.create(download_dir, recursive = TRUE)
   
-  if (overwrite | !basename(pdf_url) %in% list.files(download_dir))
+  file_name <- basename(pdf_url) |>
+    stringr::str_replace_all(pattern = "%20", replacement = "_") |>
+    stringr::str_remove_all(pattern = "%28|%29")
+  
+  if (overwrite | !file_name %in% list.files(download_dir))
     download.file(
       url = pdf_url,
-      destfile = file.path(download_dir, basename(pdf_url))
+      destfile = file.path(download_dir, file_name)
     )
   
   ## Return file path ----
-  file.path(download_dir, basename(pdf_url))
+  file.path(download_dir, file_name)
 }
 
 
 #'
-#'
-#'
+#' @rdname climate_download
+#' @export
 #'
 
 climate_download_pdfs <- function(pdf_url, 
