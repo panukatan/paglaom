@@ -21,6 +21,7 @@ data_targets <- tar_plan(
   tar_target(
     name = dam_level_data,
     command = dam_get_level(.url = dam_level_url),
+    cue = tar_cue("always")
   ),
   ### Output dam level data as CSV ----
   tar_target(
