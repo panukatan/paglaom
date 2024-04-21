@@ -27,16 +27,23 @@ paglaom_create_release_list <- function(.year = lubridate::year(Sys.Date()),
 #' Create a github data release
 #'
 
-paglaom_create_weekly_release <- function(repo = "panukatan/paglaom",
-                                          tag) {
+paglaom_create_weekly_release <- function(repo = "panukatan/paglaom") {
+  ## Get release names from GitHub ----
   release_names <- piggyback::pb_releases()$release_name
-  
+
+  ## Assign release name for this release ----
   repeat {
     release_name <- bagyo::get_bagyo()$name
     if (!release_name %in% release_names) break 
   }
+    
+  ## Create tag ----
+  tag <- Sys.Date() |>
+    (\(x) x - as.numeric(format(x, "%u")))()
   
+  ## Create release ----
   piggyback::pb_release_create(
     repo = repo, tag = tag, name = release_name
   )
 }
+
