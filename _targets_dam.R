@@ -25,15 +25,8 @@ data_targets <- tar_plan(
   ),
   ### Output dam level data as CSV ----
   tar_target(
-    name = dam_level_data_csv,
-    command = {
-      write.csv(
-        dam_level_data, 
-        file = paste0("data/dam_level_", Sys.Date(), ".csv"), 
-        row.names = FALSE
-      )
-      paste0("data/dam_level_", Sys.Date(), ".csv")
-    },
+    name = dam_level_data_raw_csv,
+    command = dam_archive_raw(dam_level_data),
     format = "file"
   )
 )

@@ -92,6 +92,16 @@
       ],
       "Hash": "c39fbec8a30d23e721980b8afb31984c"
     },
+    "bagyo": {
+      "Package": "bagyo",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "8a99897411c511af736da1479b942350"
+    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
