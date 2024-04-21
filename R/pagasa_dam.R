@@ -88,3 +88,23 @@ dam_get_level <- function(.url = "https://www.pagasa.dost.gov.ph/flood#dam-infor
   ## Return dam_tab
   dam_tab
 }
+
+
+#'
+#' Archive scraped dam level data
+#'
+#'
+
+dam_archive_raw <- function(dam_level_data, directory = "data-raw") {
+  archive_dir <- file.path(directory, "dam")
+  
+  if (!dir.exists(archive_dir)) dir.create(archive_dir, recursive = TRUE)
+  
+  write.csv(
+    dam_level_data, 
+    file = paste0(archive_dir, "/dam_level_", Sys.Date(), ".csv"), 
+    row.names = FALSE
+  )
+  
+  paste0(archive_dir, "/dam_level_", Sys.Date(), ".csv")
+}

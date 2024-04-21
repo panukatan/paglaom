@@ -24,4 +24,5 @@ library(magick)
 
 ## Load packages for file storage and archiving ----
 library(piggyback)
+library(bagyo)
 
