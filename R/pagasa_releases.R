@@ -27,7 +27,8 @@ paglaom_create_release_list <- function(.year = lubridate::year(Sys.Date()),
 #' Create a github data release
 #'
 
-paglaom_create_weekly_release <- function(repo = "panukatan/paglaom") {
+paglaom_create_weekly_release <- function(repo = "panukatan/paglaom",
+                                          major) {
   ## Get release names from GitHub ----
   release_names <- piggyback::pb_releases()$release_name
 
@@ -39,11 +40,74 @@ paglaom_create_weekly_release <- function(repo = "panukatan/paglaom") {
     
   ## Create tag ----
   tag <- Sys.Date() |>
-    (\(x) x - as.numeric(format(x, "%u")))()
+    (\(x) x - as.numeric(format(x, "%u")))() |>
+    (\(x)
+      {
+        month_tag <- lubridate::month(x)
+        week_tag  <- lubridate::week(x)
+        tag <- paste(major, month_tag, week_tag, sep = ".")
+        tag
+      }
+    )()
+    
   
   ## Create release ----
   piggyback::pb_release_create(
     repo = repo, tag = tag, name = release_name
+  )
+  
+  ## Return tag ----
+  tag
+}
+
+
+#'
+#' Create data upload to GitHub
+#'
+
+paglaom_create_weekly_upload <- function(repo = "panukatan/paglaom",
+                                         tag) {
+  zipdir <- tempdir()
+  zip_climate <- file.path(zipdir, "climate.zip")
+  zip_cyclones <- file.path(zipdir, "cyclones.zip")
+  zip_dam <- file.path(zipdir, "dam.zip")
+  zip_heat <- file.path(zipdir, "heat_index.zip")
+  
+  ## zip climate files ----
+  zip(
+    zip_climate, 
+    files = list.files(
+      path = "data-raw/climate", full.names = TRUE, recursive = TRUE)
+  )
+  
+  ## zip cyclones files ----
+  zip(
+    zip_cyclones, 
+    files = list.files(
+      path = "data-raw/cyclones", full.names = TRUE, recursive = TRUE
+    )
+  )
+  
+  ## zip dam files ----
+  zip(
+    zip_dam, 
+    files = list.files(
+      path = "data-raw/dam", full.names = TRUE, recursive = TRUE
+    )
+  )
+  
+  ## zip heat files ----
+  zip(
+    zip_heat, 
+    files = list.files(
+      path = "data-raw/heat_index", full.names = TRUE, recursive = TRUE
+    )
+  )
+  
+  lapply(
+    X = c(zip_climate, zip_cyclones, zip_dam, zip_heat),
+    FUN = piggyback::pb_upload,
+    tag = tag
   )
 }
 
