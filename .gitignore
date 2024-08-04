@@ -4,9 +4,8 @@
 .Ruserdata
 _targets
 docs
-data-raw
+#data-raw
 !data-raw/.gitkeep
-!data-raw/dam
+!data-raw/dam/*.csv
 data
 !data/.gitkeep
-

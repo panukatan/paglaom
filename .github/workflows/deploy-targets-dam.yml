@@ -2,7 +2,7 @@ name: deploy targets dam
 
 on:
   schedule:
-    - cron: "0 5/12 * * *"
+    - cron: "0 7 * * *"
   workflow_dispatch:
     branches:
       - '*'
@@ -17,7 +17,8 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y --no-install-recommends \
-          libxt6 libglpk-dev
+          libxt6 libglpk-dev libpoppler-cpp-dev libmagick++-dev \
+          libtesseract-dev libleptonica-dev tesseract-ocr-eng
           
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  

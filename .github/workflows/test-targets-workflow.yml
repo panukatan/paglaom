@@ -1,18 +1,18 @@
 name: test targets workflow
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  # push:
+  #   branches: [main, master]
+  # pull_request:
+  #   branches: [main, master]
   workflow_dispatch:
-    # branches:
-    #   - '*'
+    branches:
+      - '*'
 
 jobs:
   test-targets-workflow:
     runs-on: ubuntu-latest
-    container: rocker/tidyverse:4.4.0
+    container: rocker/tidyverse:4.4.1
     env:
       GIT_CRYPT_KEY64: ${{ secrets.GIT_CRYPT_KEY64 }}
     steps:
@@ -26,7 +26,7 @@ jobs:
           
       - name: Trust git repo
         run: |
-          git config --global --add safe.directory /__w/pagasa_db/pagasa_db
+          git config --global --add safe.directory /__w/paglaom/paglaom
           
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  
@@ -46,5 +46,3 @@ jobs:
             cyclones_peak_data_csv, script = "_targets_cyclones.R"
           )
         shell: Rscript {0}
-        
-        
