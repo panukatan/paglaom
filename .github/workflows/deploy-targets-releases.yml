@@ -2,7 +2,7 @@ name: deploy targets releases
 
 on:
   schedule:
-    - cron: "0 17 * * 7"
+    - cron: "0 17 * * SUN"
   workflow_dispatch:
     branches:
       - '*'
