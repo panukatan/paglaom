@@ -94,13 +94,13 @@
     },
     "bagyo": {
       "Package": "bagyo",
-      "Version": "0.1.1",
+      "Version": "0.1.1.9000",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://panukatan.r-universe.dev",
       "Requirements": [
         "R"
       ],
-      "Hash": "8a99897411c511af736da1479b942350"
+      "Hash": "cac5f346c0bfb73ed06214b92d2a18ae"
     },
     "base64enc": {
       "Package": "base64enc",
