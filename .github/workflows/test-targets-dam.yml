@@ -1,20 +1,16 @@
-name: test targets workflow
+name: test targets dam
 
 on:
-  # push:
-  #   branches: [main, master]
-  # pull_request:
-  #   branches: [main, master]
+  pull_request:
+    branches: [main, master]
   workflow_dispatch:
     branches:
       - '*'
 
 jobs:
-  test-targets-workflow:
+  test-targets-dam:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.1
-    env:
-      GIT_CRYPT_KEY64: ${{ secrets.GIT_CRYPT_KEY64 }}
     steps:
       - uses: actions/checkout@v4
       
@@ -23,10 +19,6 @@ jobs:
           apt-get update && apt-get install -y --no-install-recommends \
           libxt6 libglpk-dev libpoppler-cpp-dev libmagick++-dev \
           libtesseract-dev libleptonica-dev tesseract-ocr-eng
-          
-      - name: Trust git repo
-        run: |
-          git config --global --add safe.directory /__w/paglaom/paglaom
           
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  
@@ -42,7 +34,5 @@ jobs:
         
       - name: Run workflow
         run: |
-          targets::tar_make(
-            cyclones_peak_data_csv, script = "_targets_cyclones.R"
-          )
+          targets::tar_make(script = "_targets_dam.R")
         shell: Rscript {0}

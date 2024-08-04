@@ -14,7 +14,8 @@ download_targets <- tar_plan(
   ### Get download links ----
   tar_target(
     name = cyclone_reports_links,
-    command = cyclones_get_report_links()
+    command = cyclones_get_report_links(),
+    cue = tar_cue("always")
   ),
   ### Download reports ----
   tar_target(
