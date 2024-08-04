@@ -18,7 +18,7 @@ climate_get_pdf_directory_urls <- function(.url = "https://pubfiles.pagasa.dost.
   
   rvest::html_elements(pagasa_session, css = "pre a") |>
     rvest::html_text() |>
-    (\(x) x[stringr::str_detect(string = x, pattern = "\\.\\.\\/|Bulletin", negate = TRUE)])() |>
+    (\(x) x[stringr::str_detect(string = x, pattern = "CLIMATOLOGICAL")])() |>
     (\(x) paste0(.url, x))() |>
     stringr::str_replace_all(pattern = " ", replacement = "%20")
 }
