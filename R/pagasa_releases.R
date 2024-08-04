@@ -65,8 +65,8 @@ paglaom_create_weekly_release <- function(repo = "panukatan/paglaom",
 #' Create data upload to GitHub
 #'
 
-paglaom_create_weekly_upload <- function(repo = "panukatan/paglaom",
-                                         tag) {
+paglaom_upload_weekly_release <- function(repo = "panukatan/paglaom",
+                                          tag) {
   zipdir <- tempdir()
   zip_climate <- file.path(zipdir, "climate.zip")
   zip_cyclones <- file.path(zipdir, "cyclones.zip")
@@ -111,3 +111,36 @@ paglaom_create_weekly_upload <- function(repo = "panukatan/paglaom",
   )
 }
 
+
+#'
+#' Get filenames of data from current release
+#' 
+#'
+
+get_data_release_filenames <- function(dataset = NULL) {
+  if (is.null(dataset)) {
+    urls <- piggyback::pb_download_url()
+  } else {
+    urls <- piggyback::pb_download_url(file = paste0(dataset, ".zip"))
+  }
+  
+  destfile <- file.path(tempdir(), basename(urls))
+  
+  Map(
+    f = download.file,
+    url = urls, 
+    destfile = destfile, 
+    mode = "wb"
+  )
+  
+  lapply(
+    X = destfile,
+    FUN = unzip,
+    list = TRUE
+  ) |>
+    dplyr::bind_rows() |>
+    dplyr::pull(Name) |>
+    c()
+  
+  unlink(destfile)
+}

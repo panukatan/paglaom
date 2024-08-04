@@ -5,6 +5,10 @@
       {
         "Name": "CRAN",
         "URL": "https://cloud.r-project.org"
+      },
+      {
+        "Name": "PANUKATAN",
+        "URL": "https://panukatan.r-universe.dev"
       }
     ]
   },
@@ -94,13 +98,18 @@
     },
     "bagyo": {
       "Package": "bagyo",
-      "Version": "0.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "0.1.1.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "panukatan",
+      "RemoteRepo": "bagyo",
+      "RemoteRef": "main",
+      "RemoteSha": "28f412ebb780193b0b1ea0227a2ac7fbe2ecfbca",
       "Requirements": [
         "R"
       ],
-      "Hash": "8a99897411c511af736da1479b942350"
+      "Hash": "c8537873bbf19d4deff7cae1d72084a8"
     },
     "base64enc": {
       "Package": "base64enc",

@@ -1,0 +1,38 @@
+name: test targets climate
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    branches:
+      - '*'
+
+jobs:
+  test-targets-climate:
+    runs-on: ubuntu-latest
+    container: rocker/tidyverse:4.4.1
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install system dependencies
+        run: |
+          apt-get update && apt-get install -y --no-install-recommends \
+          libxt6 libglpk-dev libpoppler-cpp-dev libmagick++-dev \
+          libtesseract-dev libleptonica-dev tesseract-ocr-eng
+          
+      - name: Install packages from renv.lock (with cache)
+        if: ${{ !env.ACT }}  
+        uses: r-lib/actions/setup-renv@v2
+        with:
+          cache-version: 2
+
+      - name: Install packages from renv.lock (local, no cache)
+        if: ${{ env.ACT }}  
+        run: |
+          renv::restore()
+        shell: Rscript {0}
+        
+      - name: Run workflow
+        run: |
+          targets::tar_make(script = "_targets_climate.R")
+        shell: Rscript {0}
