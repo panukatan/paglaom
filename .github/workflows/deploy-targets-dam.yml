@@ -19,6 +19,10 @@ jobs:
           apt-get update && apt-get install -y --no-install-recommends \
           libxt6 libglpk-dev libpoppler-cpp-dev libmagick++-dev \
           libtesseract-dev libleptonica-dev tesseract-ocr-eng
+
+      - name: Trust git repo
+        run: |
+          git config --global --add safe.directory /__w/paglaom/paglaom
           
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  
