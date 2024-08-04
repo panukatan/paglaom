@@ -6,6 +6,7 @@ _targets
 docs
 data-raw
 !data-raw/.gitkeep
+!data-raw/dam
 data
 !data/.gitkeep
 
