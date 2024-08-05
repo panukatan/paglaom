@@ -16,6 +16,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![test targets workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml/badge.svg)](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml)
+[![test targets climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
+[![test targets cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml)
+[![test targets dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
+[![deploy targets dam](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml)
+[![deploy targets releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
 [![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
@@ -33,7 +38,7 @@ The `paglaom` project aims to maintain a database of curated datasets on varios 
 
 * for data visualisation learners and aficionados who want to try on working on data about the various natural phenomena available from PAGASA and create unique and interesting plots and graphics.
 
-The broader and more blue skies vision of the `paglaom` project is to contribute to the increasing interest in science, technology, engineering, and mathematics (STEM) sciences particularly in the Philippines with a collection that showcases topics and data that are homegrown and embedded into the fabric of Philippine life.
+The broader and more blue skies vision of the `paglaom` project is to contribute to the increasing interest in science, technology, engineering, and mathematics (STEM) subjects particularly in the Philippines with a collection that showcases topics and data that are homegrown and embedded into the fabric of Philippine life.
 
 Whilst the `paglaom` project by its name and the nature of the data it curates has an inherent Filipino audience, it is hoped that those outside of the Philippines will also find the information within useful in similar contexts described above.
 
@@ -55,6 +60,7 @@ paglaom
     |-- packages.R
     |-- _targets_climate.R
     |-- _targets_cyclones.R
+    |-- _targets_dam.R
     |-- _targets_heat.R
     |-- _targets_setup.R
     |-- _targets.R

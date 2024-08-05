@@ -10,6 +10,16 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![test targets
 workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml/badge.svg)](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml)
+[![test targets
+climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
+[![test targets
+cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml)
+[![test targets
+dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
+[![deploy targets
+dam](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml)
+[![deploy targets
+releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
 [![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
@@ -62,7 +72,7 @@ that can be used for educational purposes some of which are:
 
 The broader and more blue skies vision of the `paglaom` project is to
 contribute to the increasing interest in science, technology,
-engineering, and mathematics (STEM) sciences particularly in the
+engineering, and mathematics (STEM) subjects particularly in the
 Philippines with a collection that showcases topics and data that are
 homegrown and embedded into the fabric of Philippine life.
 
@@ -88,6 +98,7 @@ The project repository is structured as follows:
         |-- packages.R
         |-- _targets_climate.R
         |-- _targets_cyclones.R
+        |-- _targets_dam.R
         |-- _targets_heat.R
         |-- _targets_setup.R
         |-- _targets.R
