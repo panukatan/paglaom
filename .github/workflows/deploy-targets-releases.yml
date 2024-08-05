@@ -36,8 +36,15 @@ jobs:
           renv::restore()
         shell: Rscript {0}
         
-      - name: Run workflow
+      - name: Run workflows
+        run: |
+          targets::tar_make(script = "_targets_climate.R")
+          targets::tar_make(script = "_targets_cyclones.R")
+          targets::tar_make(script = "_targets_dam.R")
+        shell: Rscript {0}
+        
+      - name: Create weekly data release
         run: |
           targets::tar_make(script = "_targets_releases.R")
         shell: Rscript {0}
-          
+        
