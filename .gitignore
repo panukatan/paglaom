@@ -7,5 +7,6 @@ docs
 data-raw
 !data-raw/.gitkeep
 !data-raw/dam/*.csv
+!data-raw/heat_index
 data
 !data/.gitkeep
