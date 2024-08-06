@@ -4,9 +4,9 @@
 .Ruserdata
 _targets
 docs
-data-raw
+#data-raw
 !data-raw/.gitkeep
-!data-raw/dam/*.csv
+!data-raw/dam
 !data-raw/heat_index
 data
 !data/.gitkeep
