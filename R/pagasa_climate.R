@@ -177,7 +177,7 @@ climate_process_1991 <- function(climate_download_files) {
     )()
  
   ## Final processing/structuring/concatenating of climate data ----
-  climate_df <- lapply(
+  lapply(
     X = climate_dfs,
     FUN = function(x) {
       data.frame(x) |>
@@ -214,13 +214,22 @@ climate_process_1991 <- function(climate_download_files) {
             x == "Annual", x, month.name[month.abb == x]
           )
         ) |>
-        unlist()
+        unlist(),
+      dplyr::across(
+        .cols = c(rainfall_amount, temperature_max:mean_sea_level_pressure),
+        .fns = ~as.numeric(.x)
+      ),
+      dplyr::across(
+        .cols = c(
+          rainfall_days, wind_speed, cloud_amount, thunderstorm_days, 
+          lightning_days
+        ),
+        .fns = ~as.integer(.x)
+      )
     ) |>
     dplyr::select(-station_period) |>
     dplyr::relocate(station:time_period, .before = time_name) |>
     tibble::tibble()
-  
-  climate_df
 }
 
 #'
@@ -232,135 +241,12 @@ climate_process_2020 <- function(climate_download_files) {
   ## Get files for up to year 2020 ----
   pdf_path <- climate_download_files |>
     (\(x) x[stringr::str_detect(string = x, pattern = "2020")])()
-  
-  ## Get text from each PDF ----
-  pdfs <- lapply(
-    X = pdf_path,
-    FUN = function(x) {
-      pdftools::pdf_text(x) |>
-        stringr::str_split(pattern = "\n") |>
-        unlist()
-    }
+
+  ## Get weather station information ----
+  station_df <- get_weather_station_info(
+    climate_download_files, period = "2020"
   )
-  
-  ## Get station information ----
-  station <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "STATION")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 1])() |>
-        stringr::str_remove_all(pattern = "STATION: ") |>
-        stringr::str_to_title() |>
-        stringr::str_replace_all(pattern = "Cubi Pt.", replacement = "Cubi Point") |>
-        stringr::str_replace_all(pattern = "Naia", replacement = "NAIA") |>
-        stringr::str_replace_all(pattern = "Mia", replacement = "MIA") |>
-        stringr::str_replace_all(pattern = "Mco", replacement = "MCO") |>
-        stringr::str_replace_all(pattern = "Del", replacement = "del") |>
-        stringr::str_replace_all(pattern = "Former Vigan Station", replacement = "former Vigan Station") |>
-        stringr::str_replace_all(pattern = "Synop", replacement = "SYNOP")
-    }
-  ) |>
-    unlist()
-  
-  ## Get period information ----
-  period <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "YEAR:")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 1])() |>
-        stringr::str_remove_all(pattern = "YEAR: ") |>
-        stringr::str_replace_all(pattern = " - ", replacement = "-") |>
-        stringr::str_to_title()
-    }
-  ) |>
-    unlist()
-  
-  ## Get station latitude information ----
-  latitude <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "LATITUDE")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 2])() |>
-        stringr::str_replace_all(pattern = "14.76N", replacement = "14.76\"N") |>
-        stringr::str_replace_all(pattern = "13.20N", replacement = "13.20\"N") |>
-        stringr::str_remove_all("LATITUDE: ") |>
-        stringr::str_split(pattern = "o|°|'|\"", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        rbind() |>
-        data.frame() |>
-        (\(x)
-         {
-           names(x) <- c("degrees", "minutes", "seconds", "direction")
-           x
-        }
-        )()
-    }
-  ) |>
-    dplyr::bind_rows() |>
-    dplyr::mutate(
-      degrees = as.numeric(degrees),
-      minutes = as.numeric(minutes),
-      seconds = as.numeric(seconds),
-      latitude = degrees + (minutes / 60) + (seconds / 3600)
-    ) |>
-    dplyr::pull(latitude)
-  
-  ## Get station longitude information ----
-  longitude <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "LONGITUDE:")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 2])() |>
-        stringr::str_replace_all(pattern = "56.76E", replacement = "56.76\"E") |>
-        stringr::str_replace_all(pattern = "08.10E", replacement = "0.810\"E") |>
-        stringr::str_replace_all(pattern = "57.53E", replacement = "14.76\"E") |>
-        stringr::str_remove_all("LONGITUDE: ") |>
-        stringr::str_split(pattern = "o|°|'|\"", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        rbind() |>
-        data.frame() |>
-        (\(x)
-         {
-           names(x) <- c("degrees", "minutes", "seconds", "direction")
-           x
-        }
-        )()
-    }
-  ) |>
-    dplyr::bind_rows() |>
-    dplyr::mutate(
-      degrees = as.numeric(degrees),
-      minutes = as.numeric(minutes),
-      seconds = as.numeric(seconds),
-      longitude = degrees + (minutes / 60) + (seconds / 3600)
-    ) |>
-    dplyr::pull(longitude)
-  
-  ## Get station elevation information ----
-  elevation <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "ELEVATION:")] |>
-        stringr::str_split(pattern = "\\s{2,1000}", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        stringr::str_remove_all(pattern = "ELEVATION: | m|m") |>
-        as.numeric()
-    }
-  ) |>
-    unlist()
-  
-  ## Create station information data.frame ----
-  station_df <- tibble::tibble(
-    station = station,
-    latitude = latitude,
-    longitude = longitude,
-    elevation = elevation
-  )
-  
+
   ## Read text from PDFs and extract tables data ----
   pdfs <- lapply(
     X = pdf_path,
@@ -382,7 +268,7 @@ climate_process_2020 <- function(climate_download_files) {
   ) |>
     (\(x)
       {
-        names(x) <- paste0(station, "_", period)
+        names(x) <- paste0(station_df$station, "_", station_df$period)
         x
       }
     )()
@@ -1100,46 +986,7 @@ climate_process_2020 <- function(climate_download_files) {
     remove_table_rows()
   
   ## Final processing/restructuring/concatenating of climate extremes data ----
-  lapply(
-    X = pdfs,
-    FUN = function(x) {
-      data.frame(x) |>
-        dplyr::rename_with(
-          .fn = function(x) 
-            c("time_name", 
-              "temperature_max", "temperature_max_date",
-              "temperature_min", "temperature_min_date", 
-              "rainfall_max", "rainfall_max_date",
-              "windspeed_max", "windspeed_max_direction", "windspeed_max_date", 
-              "sea_level_pressure_max", "sea_level_pressure_max_date",
-              "sea_level_pressure_min", "sea_level_pressure_min_date")
-        ) |>
-        dplyr::mutate(
-          time_name = dplyr::case_when(
-            time_name == "JULY" ~ "JUL",
-            time_name == "JUNE" ~ "JUN",
-            .default = time_name
-          ) |>
-            stringr::str_to_title()
-        )
-    }
-  ) |>
-    dplyr::bind_rows(.id = "station_period") |>
-    dplyr::mutate(
-      station = stringr::str_extract_all(
-        string = station_period, pattern = "^[^_]*", simplify = TRUE
-      ),
-      time_period = stringr::str_remove_all(
-        string = station_period, pattern = "^[^_]*|_"
-      ),
-      .after = station_period
-    ) |>
-    dplyr::select(-station_period) |>
-    dplyr::mutate(
-      time_unit = ifelse(time_name %in% month.abb, "month", "year"),
-      .after = time_name
-    ) |>
-    tibble::tibble()
+  structure_climate_data(pdfs)
 }
 
 
@@ -2032,46 +1879,6 @@ climate_process_2022 <- function(climate_download_files) {
     remove_table_rows()
   
   ## Final processing/structuring/concatenating of climate data ----
-  lapply(
-    X = pdfs,
-    FUN = function(x) {
-      data.frame(x) |>
-        dplyr::rename_with(
-          .fn = function(x) 
-            c("time_name", 
-              "temperature_max", "temperature_max_date",
-              "temperature_min", "temperature_min_date", 
-              "rainfall_max", "rainfall_max_date",
-              "windspeed_max", "windspeed_max_direction", "windspeed_max_date", 
-              "sea_level_pressure_max", "sea_level_pressure_max_date",
-              "sea_level_pressure_min", "sea_level_pressure_min_date")
-        ) |>
-        dplyr::mutate(
-          time_name = dplyr::case_when(
-            time_name == "JULY" ~ "JUL",
-            time_name == "JUNE" ~ "JUN",
-            .default = time_name
-          ) |>
-            stringr::str_to_title()
-        )
-    }
-  ) |>
-    dplyr::bind_rows(.id = "station_period") |>
-    dplyr::mutate(
-      station = stringr::str_extract_all(
-        string = station_period, pattern = "^[^_]*"
-      ) |>
-        unlist(),
-      time_period = stringr::str_remove_all(
-        string = station_period, pattern = "^[^_]*|_"
-      ),
-      .after = station_period
-    ) |>
-    dplyr::select(-station_period) |>
-    dplyr::mutate(
-      time_unit = ifelse(time_name %in% month.abb, "month", "year"),
-      .after = time_name
-    ) |>
-    tibble::tibble()
+  structure_climate_data(pdfs)
 }
 
