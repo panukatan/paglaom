@@ -45,6 +45,10 @@ download_targets <- tar_plan(
 ## Processing targets ----------------------------------------------------------
 processing_targets <- tar_plan(
   tar_target(
+    name = pagasa_weather_stations,
+    command = get_weather_station_info(climate_download_files)
+  ),
+  tar_target(
     name = climate_data_normals_1991_2020,
     command = climate_process_1991(climate_download_files)
   ),
@@ -55,6 +59,14 @@ processing_targets <- tar_plan(
   tar_target(
     name = climate_data_extremes_2021,
     command = climate_process_2021(climate_download_files)
+  ),
+  tar_target(
+    name = climate_data_extremes_2022,
+    command = climate_process_2022(climate_download_files)
+  ),
+  tar_target(
+    name = climate_data_extremes_2023,
+    command = climate_process_2023(climate_download_files)
   )
 )
 
