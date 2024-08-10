@@ -32,3 +32,86 @@ all_targets <- function(env = parent.env(environment()),
   }
   return(out)
 }
+
+
+
+#'
+#' Helper function/s to process climate tables
+#'
+#'
+
+structure_table_single <- function(pdf, row_index, col_index) {
+  pdf |>
+    (\(x)
+     {
+       x[row_index[2], col_index]             <- x[row_index[2], ][x[row_index[2], ] != ""]
+       x[row_index[2], 1:(col_index[1] - 1)]  <- x[row_index[1], 1:(col_index[1] - 1)]
+       x[row_index[2], (col_index[2] + 1):14] <- x[row_index[1], (col_index[2] + 1):14]
+       x
+    }
+    )()
+}
+
+
+structure_table_double <- function(pdf, row_index, col_index) {
+  pdf |>
+    (\(x)
+      {
+        x[row_index[1], 2:14]      <- x[row_index[1], 1:13]
+        x[row_index[1], 1]         <- x[row_index[2], 1]
+        x[row_index[2], 2:14]      <- x[row_index[1], 2:14]
+        x[row_index[2], col_index] <- x[row_index[3], ][x[row_index[3], ] != ""]
+        
+        x
+      }
+    )()
+}
+
+
+structure_table_triple <- function(pdf, row_index, col_index) {
+  pdf |>
+    (\(x)
+      {
+        x[row_index[1], 2:14]      <- x[row_index[1], 1:13]
+        x[row_index[1], 1]         <- x[row_index[2], 1]
+        
+        x[row_index[2], col_index] <- x[row_index[2], ][stringr::str_detect(x[row_index[2], ], paste(toupper(month.abb), collapse = "|"), negate = TRUE)] |> (\(x) x[x != ""])()
+        x[row_index[2], which(!1:14 %in% col_index)]  <- x[row_index[1], which(!1:14 %in% col_index)]
+        
+        x[row_index[3], col_index]             <- x[row_index[3], 1:length(col_index)]
+        x[row_index[3], which(!1:14 %in% col_index)]  <- x[row_index[1], which(!1:14 %in% col_index)]
+        
+        x
+      }
+    )()
+}
+
+
+structure_table_quadruple <- function(pdf, row_index, col_index) {
+  pdf |>
+    (\(x)
+      {
+        x[row_index[1], 2:14]      <- x[row_index[1], 1:13]
+        x[row_index[1], 1]         <- x[row_index[3], 1]
+       
+        x[row_index[2], col_index]             <- x[row_index[2], ][x[row_index[2], ] != ""]
+        x[row_index[2], 1:(col_index[1] - 1)]  <- x[row_index[1], 1:(col_index[1] - 1)]
+        x[row_index[2], (col_index[2] + 1):14] <- x[row_index[1], (col_index[2] + 1):14]
+       
+        x[row_index[3], 2:14]                  <- x[row_index[1], 2:14]
+        x[row_index[3], col_index]             <- x[row_index[4], ][x[row_index[4], ] != ""]
+
+        x[row_index[4], ]                      <- x[row_index[1], ]
+        x[row_index[4], col_index]             <- x[row_index[5], ][x[row_index[5], ] != ""]
+       
+        x
+      }
+    )()
+}
+
+remove_table_rows <- function(pdf_tab) {
+
+  stringr::str_detect(pdf_tab[ , 1], pattern = "[A-Z]") |>
+    (\(x) pdf_tab[x, ])()
+  
+}
