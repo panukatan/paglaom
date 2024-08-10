@@ -1000,131 +1000,9 @@ climate_process_2021 <- function(climate_download_files) {
   pdf_path <- climate_download_files |>
     (\(x) x[stringr::str_detect(string = x, pattern = "2021")])()
   
-  pdfs <- lapply(
-    X = pdf_path,
-    FUN = function(x) {
-      pdftools::pdf_text(x) |>
-        stringr::str_split(pattern = "\n") |>
-        unlist()
-    }
-  )
-  
   ## Get station information ----
-  station <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "STATION")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 1])() |>
-        stringr::str_remove_all(pattern = "STATION: ") |>
-        stringr::str_to_title() |>
-        stringr::str_replace_all(pattern = "Cubi Pt.", replacement = "Cubi Point") |>
-        stringr::str_replace_all(pattern = "Naia", replacement = "NAIA") |>
-        stringr::str_replace_all(pattern = "Mia", replacement = "MIA") |>
-        stringr::str_replace_all(pattern = "Mco", replacement = "MCO") |>
-        stringr::str_replace_all(pattern = "Del", replacement = "del") |>
-        stringr::str_replace_all(pattern = "Former Vigan Station", replacement = "former Vigan Station") |>
-        stringr::str_replace_all(pattern = "Synop", replacement = "SYNOP")
-    }
-  ) |>
-    unlist()
-  
-  ## Get period information ----
-  period <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "YEAR:")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 1])() |>
-        stringr::str_remove_all(pattern = "YEAR: ") |>
-        stringr::str_replace_all(pattern = " - ", replacement = "-") |>
-        stringr::str_to_title()
-    }
-  ) |>
-    unlist()
-  
-  ## Get station latitude information ----
-  latitude <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "LATITUDE")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 2])() |>
-        stringr::str_replace_all(pattern = "14.76N", replacement = "14.76\"N") |>
-        stringr::str_replace_all(pattern = "13.20N", replacement = "13.20\"N") |>
-        stringr::str_remove_all("LATITUDE: ") |>
-        stringr::str_split(pattern = "o|°|'|\"", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        rbind() |>
-        data.frame() |>
-        (\(x)
-         {
-           names(x) <- c("degrees", "minutes", "seconds", "direction")
-           x
-        }
-        )()
-    }
-  ) |>
-    dplyr::bind_rows() |>
-    dplyr::mutate(
-      degrees = as.numeric(degrees),
-      minutes = as.numeric(minutes),
-      seconds = as.numeric(seconds),
-      latitude = degrees + (minutes / 60) + (seconds / 3600)
-    ) |>
-    dplyr::pull(latitude)
-  
-  ## Get station longitude information ----
-  longitude <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "LONGITUDE:")] |>
-        stringr::str_split(pattern = "\\s{2,100}", simplify = TRUE) |>
-        (\(x) x[ , 2])() |>
-        stringr::str_replace_all(pattern = "56.76E", replacement = "56.76\"E") |>
-        stringr::str_replace_all(pattern = "08.10E", replacement = "0.810\"E") |>
-        stringr::str_replace_all(pattern = "57.53E", replacement = "14.76\"E") |>
-        stringr::str_remove_all("LONGITUDE: ") |>
-        stringr::str_split(pattern = "o|°|'|\"", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        rbind() |>
-        data.frame() |>
-        (\(x)
-         {
-           names(x) <- c("degrees", "minutes", "seconds", "direction")
-           x
-        }
-        )()
-    }
-  ) |>
-    dplyr::bind_rows() |>
-    dplyr::mutate(
-      degrees = as.numeric(degrees),
-      minutes = as.numeric(minutes),
-      seconds = as.numeric(seconds),
-      longitude = degrees + (minutes / 60) + (seconds / 3600)
-    ) |>
-    dplyr::pull(longitude)
-  
-  ## Get station elevation information ----
-  elevation <- lapply(
-    X = pdfs,
-    FUN = function(x) {
-      x[stringr::str_detect(string = x, pattern = "ELEVATION:")] |>
-        stringr::str_split(pattern = "\\s{2,1000}", simplify = TRUE) |>
-        (\(x) x[x != ""])() |>
-        stringr::str_remove_all(pattern = "ELEVATION: | m|m") |>
-        as.numeric()
-    }
-  ) |>
-    unlist()
-  
-  ## Create station information data.frame ----
-  station_df <- tibble::tibble(
-    station = station,
-    latitude = latitude,
-    longitude = longitude,
-    elevation = elevation
+  station_df <- get_weather_station_info(
+    climate_download_files, period = "2021"
   )
   
   ## Read text data from tables from each PDF ----
@@ -1148,14 +1026,14 @@ climate_process_2021 <- function(climate_download_files) {
   ) |>
     (\(x)
      {
-       names(x) <- paste0(station, "_", period)
+       names(x) <- paste0(station_df$station, "_", station_df$period)
        x
     }
     )()
   
   ## Process each PDF table with multiple rows per month ----
   pdfs[[1]] <- pdfs[[1]] |>
-    structure_table_double(row_index = 9:11, col_index = 11:12) |>
+    structure_table_double(row_index = 9:11, col_index = 13:14) |>
     remove_table_rows()
   
   pdfs[[2]] <- pdfs[[2]] |>
@@ -1474,47 +1352,7 @@ climate_process_2021 <- function(climate_download_files) {
     remove_table_rows()
   
   ## Final processing/structuring/concatenating of climate data ----
-  lapply(
-    X = pdfs,
-    FUN = function(x) {
-      data.frame(x) |>
-        dplyr::rename_with(
-          .fn = function(x) 
-            c("time_name", 
-              "temperature_max", "temperature_max_date",
-              "temperature_min", "temperature_min_date", 
-              "rainfall_max", "rainfall_max_date",
-              "windspeed_max", "windspeed_max_direction", "windspeed_max_date", 
-              "sea_level_pressure_max", "sea_level_pressure_max_date",
-              "sea_level_pressure_min", "sea_level_pressure_min_date")
-        ) |>
-        dplyr::mutate(
-          time_name = dplyr::case_when(
-            time_name == "JULY" ~ "JUL",
-            time_name == "JUNE" ~ "JUN",
-            .default = time_name
-          ) |>
-            stringr::str_to_title()
-        )
-    }
-  ) |>
-    dplyr::bind_rows(.id = "station_period") |>
-    dplyr::mutate(
-      station = stringr::str_extract_all(
-        string = station_period, pattern = "^[^_]*"
-      ) |>
-        unlist(),
-      time_period = stringr::str_remove_all(
-        string = station_period, pattern = "^[^_]*|_"
-      ),
-      .after = station_period
-    ) |>
-    dplyr::select(-station_period) |>
-    dplyr::mutate(
-      time_unit = ifelse(time_name %in% month.abb, "month", "year"),
-      .after = time_name
-    ) |>
-    tibble::tibble()
+  structure_climate_data(pdfs)
 }
 
 
@@ -1524,13 +1362,14 @@ climate_process_2021 <- function(climate_download_files) {
 #'
 
 climate_process_2022 <- function(climate_download_files) {
-  station_df <- get_weather_station_info(
-    climate_download_files, period = "2022"
-    )
-  
   ## Get vector of file paths for 2021 PDFS ----
   pdf_path <- climate_download_files |>
     (\(x) x[stringr::str_detect(string = x, pattern = "2022")])()
+  
+  ## Get weather station information ----
+  station_df <- get_weather_station_info(
+    climate_download_files, period = "2022"
+    )
   
   ## Read text data from tables from each PDF ----
   pdfs <- lapply(
@@ -1560,7 +1399,7 @@ climate_process_2022 <- function(climate_download_files) {
   
   ## Process each PDF table with multiple rows per month ----
   pdfs[[1]] <- pdfs[[1]] |>
-    structure_table_double(row_index = 9:11, col_index = 11:12) |>
+    structure_table_double(row_index = 9:11, col_index = 13:14) |>
     remove_table_rows()
   
   pdfs[[2]] <- pdfs[[2]] |>

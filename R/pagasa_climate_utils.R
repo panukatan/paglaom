@@ -1,6 +1,20 @@
 #'
 #' Helper function/s to process climate tables
+#' 
+#' @param pdf A text matrix from climate PDF
+#' @param row_index A vector of row number indices to structure
+#' @param col_index A vector of column number indices to structure
 #'
+#' @returns A text matrix from climate PDF
+#' 
+#' @examples
+#' structure_table_single(pdf, row_index = 1:3, col_index = 2:3)
+#' structure_table_double(pdf, row_index = 1:3, col_index = 2:3)
+#' structure_table_triple(pdf, row_index = 1:4, col_index = 2:3)
+#' structure_table_quadruple(pdf, row_index = 1:5, col_index = 2:3)
+#' 
+#' @rdname structure_table
+#' @export
 #'
 
 structure_table_single <- function(pdf, row_index, col_index) {
@@ -15,6 +29,10 @@ structure_table_single <- function(pdf, row_index, col_index) {
     )()
 }
 
+#'
+#' @rdname structure_table
+#' @export
+#'
 
 structure_table_double <- function(pdf, row_index, col_index) {
   pdf |>
@@ -30,6 +48,10 @@ structure_table_double <- function(pdf, row_index, col_index) {
     )()
 }
 
+#'
+#' @rdname structure_table
+#' @export
+#'
 
 structure_table_triple <- function(pdf, row_index, col_index) {
   pdf |>
@@ -49,28 +71,36 @@ structure_table_triple <- function(pdf, row_index, col_index) {
     )()
 }
 
+#'
+#' @rdname structure_table
+#' @export
+#'
 
 structure_table_quadruple <- function(pdf, row_index, col_index) {
   pdf |>
     (\(x)
      {
-       x[row_index[1], 2:14]      <- x[row_index[1], 1:13]
-       x[row_index[1], 1]         <- x[row_index[3], 1]
+       x[row_index[1], 2:14] <- x[row_index[1], 1:13]
+       x[row_index[1], 1]    <- x[row_index[3], 1]
        
        x[row_index[2], col_index]             <- x[row_index[2], ][x[row_index[2], ] != ""]
        x[row_index[2], 1:(col_index[1] - 1)]  <- x[row_index[1], 1:(col_index[1] - 1)]
        x[row_index[2], (col_index[2] + 1):14] <- x[row_index[1], (col_index[2] + 1):14]
        
-       x[row_index[3], 2:14]                  <- x[row_index[1], 2:14]
-       x[row_index[3], col_index]             <- x[row_index[4], ][x[row_index[4], ] != ""]
+       x[row_index[3], 2:14]      <- x[row_index[1], 2:14]
+       x[row_index[3], col_index] <- x[row_index[4], ][x[row_index[4], ] != ""]
        
-       x[row_index[4], ]                      <- x[row_index[1], ]
-       x[row_index[4], col_index]             <- x[row_index[5], ][x[row_index[5], ] != ""]
+       x[row_index[4], ]          <- x[row_index[1], ]
+       x[row_index[4], col_index] <- x[row_index[5], ][x[row_index[5], ] != ""]
        
        x
     }
     )()
 }
+
+#'
+#' Remove empty climate data table rows 
+#'
 
 remove_table_rows <- function(pdf_tab) {
   
@@ -79,10 +109,8 @@ remove_table_rows <- function(pdf_tab) {
   
 }
 
-
 #'
 #' Retrieve weather station information from set of climate PDF datasets
-#' 
 #'
 
 get_weather_station_info <- function(climate_download_files, 
