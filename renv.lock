@@ -99,17 +99,12 @@
     "bagyo": {
       "Package": "bagyo",
       "Version": "0.1.1.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "panukatan",
-      "RemoteRepo": "bagyo",
-      "RemoteRef": "main",
-      "RemoteSha": "28f412ebb780193b0b1ea0227a2ac7fbe2ecfbca",
+      "Source": "Repository",
+      "Repository": "https://panukatan.r-universe.dev",
       "Requirements": [
         "R"
       ],
-      "Hash": "c8537873bbf19d4deff7cae1d72084a8"
+      "Hash": "cac5f346c0bfb73ed06214b92d2a18ae"
     },
     "base64enc": {
       "Package": "base64enc",
