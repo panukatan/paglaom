@@ -11,6 +11,8 @@ jobs:
   deploy-targets-releases:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.1
+    env:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
     steps:
       - uses: actions/checkout@v4
       
