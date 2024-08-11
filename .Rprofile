@@ -1,5 +1,3 @@
-source("renv/activate.R")
-
 ## Set options for renv convenience
 options(
   repos = c(
@@ -11,3 +9,5 @@ options(
   renv.config.install.shortcuts = FALSE,  ## Use existing local library
   renv.config.cache.enabled = TRUE        ## Use renv build cache
 )
+
+source("renv/activate.R")
