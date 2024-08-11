@@ -79,7 +79,7 @@ dam_get_level <- function(.url = "https://www.pagasa.dost.gov.ph/flood#dam-infor
       `Deviation from NHWL (m)` = as.numeric(`Deviation from NHWL (m)`),
       `Rule Curve Elevation (m)` = as.numeric(`Rule Curve Elevation (m)`),
       `Deviation from Rule Curve (m)` = as.numeric(`Deviation from Rule Curve (m)`),
-      `Gate Opening Gates` = as.numeric(`Gate Opening Gates`),                 
+      `Gate Opening Gates` = as.integer(`Gate Opening Gates`),                 
       `Gate Opening Meters` = as.numeric(`Gate Opening Meters`),
       `Estimated (cms) Inflow` = as.numeric(`Estimated (cms) Inflow`),            
       `Estimated (cms) Outflow` = as.numeric(`Estimated (cms) Outflow`),
@@ -107,4 +107,72 @@ dam_archive_raw <- function(dam_level_data, directory = "data-raw") {
   )
   
   paste0(archive_dir, "/dam_level_", Sys.Date(), ".csv")
+}
+
+#'
+#' Process dam water level data
+#' 
+#' @param dam_level_data_files A vector of paths to each of the daily
+#'   dam water level data CSV files
+#'   
+#' @returns A tibble of concatenated daily dam water level data
+#' 
+#' @examples
+#' dam_process_date(dam_level_data_files) 
+#'
+#' @export
+#'
+
+dam_process_data <- function(dam_level_data_files) {
+  lapply(
+    X = dam_level_data_files,
+    FUN = read.csv
+  ) |>
+    dplyr::bind_rows() |>
+    dplyr::rename_with(
+      .fn = function(x) c(
+        "data_retrieval_date", "dam_name", 
+        "observation_date_time", "water_level", 
+        "water_level_deviation_period", "water_level_deviation", 
+        "water_level_high_normal", "water_level_deviation_from_normal",
+        "rule_curve_elevation", "rule_curve_elevation_deviation",
+        "gates_opened", "gates_opening_width", 
+        "inflow_estimated", "outflow_estimated"
+      )
+    ) |>
+    dplyr::filter(
+      as.Date(observation_date_time) == as.Date(data_retrieval_date) |
+        (as.Date(observation_date_time) != as.Date(data_retrieval_date) &
+        !as.Date(observation_date_time) %in% 
+        seq(from = as.Date("2024-04-18"), to = Sys.Date(), by = "day"))
+    ) |>
+    dplyr::mutate(
+      data_retrieval_date = as.Date(data_retrieval_date),
+      observation_date_time = strptime(
+        observation_date_time, format = "%Y-%m-%d %H:%M:%S"
+      ),
+      dplyr::across(
+        .cols = dplyr::contains("estimated"),
+        .fns = ~as.numeric(.x)
+      )
+    ) |>
+    dplyr::arrange(dam_name, observation_date_time) |>
+    tibble::tibble()
+}
+
+#'
+#' 
+#'
+
+dam_archive_processed <- function(dam_level_data_processed, 
+                                  directory = "data") {
+  file_path <- file.path(directory, "dam_water_levels.csv")
+  
+  write.csv(
+    x = dam_level_data_processed,
+    file = file_path,
+    row.names = FALSE
+  )
+  
+  file_path
 }

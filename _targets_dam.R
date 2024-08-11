@@ -4,13 +4,13 @@
 #
 ################################################################################
 
-## Setup workflow using project-wide settings ----------------------------------
+# Setup workflow using project-wide settings ----------------------------------
 source("_targets_setup.R")
 
 
-## Create targets and list targets objects -------------------------------------
+# Create targets and list targets objects -------------------------------------
 
-### Data targets
+## Data targets
 data_targets <- tar_plan(
   ### Set PAGASA dam level URL ----
   tar_target(
@@ -23,30 +23,43 @@ data_targets <- tar_plan(
     command = dam_get_level(.url = dam_level_url),
     cue = tar_cue("always")
   ),
-  ### Output dam level data as CSV ----
+  ### Get list of saved/stored dam level CSVs ----
   tar_target(
-    name = dam_level_data_raw_csv,
-    command = dam_archive_raw(dam_level_data),
-    format = "file"
+    name = dam_level_data_files,
+    command = list.files(path = "data-raw/dam", full.names = TRUE)
   )
 )
 
 
-### Processing targets
+## Processing targets
 processing_targets <- tar_plan(
-  
+  ### Processing daily dam level data ----
+  tar_target(
+    name = dam_level_data_processed,
+    command = dam_process_data(dam_level_data_files)
+  )
 )
 
 
-### Analysis targets
+## Analysis targets
 analysis_targets <- tar_plan(
   
 )
 
 
-### Output targets
+## Output targets
 output_targets <- tar_plan(
-  
+  ### Output dam level data as CSV ----
+  tar_target(
+    name = dam_level_data_raw_csv,
+    command = dam_archive_raw(dam_level_data),
+    format = "file"
+  ),
+  ### Output processed dam level data as CSV ----
+  tar_target(
+    name = dam_level_data_csv,
+    command = dam_archive_processed(dam_level_data_processed)
+  )
 )
 
 
