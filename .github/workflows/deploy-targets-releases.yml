@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.1
     env:
-      GITHUB_PAT: ${{ secrets.GH_PAT }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       
