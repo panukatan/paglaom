@@ -80,32 +80,36 @@ paglaom_upload_weekly_release <- function(climate_download_files,
   ## zip climate files ----
   zip(
     zip_climate, 
-    files = list.files(
-      path = "data-raw/climate", full.names = TRUE, recursive = TRUE)
+    # files = list.files(
+    #   path = "data-raw/climate", full.names = TRUE, recursive = TRUE)
+    files = climate_download_files
   )
   
   ## zip cyclones files ----
   zip(
     zip_cyclones, 
-    files = list.files(
-      path = "data-raw/cyclones", full.names = TRUE, recursive = TRUE
-    )
+    # files = list.files(
+    #   path = "data-raw/cyclones", full.names = TRUE, recursive = TRUE
+    # )
+    files = cyclone_reports_download_files
   )
   
   ## zip dam files ----
   zip(
     zip_dam, 
-    files = list.files(
-      path = "data-raw/dam", full.names = TRUE, recursive = TRUE
-    )
+    # files = list.files(
+    #   path = "data-raw/dam", full.names = TRUE, recursive = TRUE
+    # )
+    files = dam_level_data_files
   )
   
   ## zip heat files ----
   zip(
     zip_heat, 
-    files = list.files(
-      path = "data-raw/heat_index", full.names = TRUE, recursive = TRUE
-    )
+    # files = list.files(
+    #   path = "data-raw/heat_index", full.names = TRUE, recursive = TRUE
+    # )
+    files = heat_index_download_files
   )
   
   lapply(
