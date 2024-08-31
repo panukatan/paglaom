@@ -156,7 +156,8 @@ The project repository is structured as follows:
 
 ## The workflow
 
-Currently, the project curates the following datasets:
+Currently, the project has workflows that curatee the following
+datasets:
 
 1.  Tropical cyclones data for various cyclones entering the Philippine
     area of responsibility since 2017;
@@ -201,15 +202,15 @@ graph LR
   style Graph fill:#FFFFFF00,stroke:#000000;
   subgraph Graph
     direction LR
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
-    xb48a3b157c96bffd(["climate_pubfiles_url"]):::outdated --> xa37a01adfb45bd68(["climate_directory_urls"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> x84b857e732ff3c29(["pagasa_weather_stations"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::outdated --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
-    x26b861c7a0a21b52["climate_pdf_urls"]:::outdated --> xc044beb81380bb4a["climate_download_files"]:::outdated
-    xa37a01adfb45bd68(["climate_directory_urls"]):::outdated --> x26b861c7a0a21b52["climate_pdf_urls"]:::outdated
+    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x84b857e732ff3c29(["pagasa_weather_stations"]):::outdated
+    xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate --> x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
+    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
   end
 ```
 
@@ -229,6 +230,18 @@ graph LR
   end
 ```
 
+The project also has a workflow for weekly GitHub release of the various
+raw datasets.
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    x8e2305bde709e13c(["paglaom_weekly_release_tag"]):::outdated --> x2ee1cead5469690e(["paglaom_weekly_release"]):::outdated
+  end
+```
+
 ## Reproducibility
 
 ### R package dependencies
@@ -237,5 +250,6 @@ This project was built using `R 4.4.1`. This project uses the `renv`
 framework to record R package dependencies and versions. Packages and
 versions used are recorded in `renv.lock` and code used to manage
 dependencies is in `renv/` and other files in the root project
-directory. On starting an R session in the working directory, run
-`renv::restore()` to install R package dependencies.
+directory. After cloning this repository, start an R session in the
+project’s working directory and then run `renv::restore()` to install
+all R package dependencies.
