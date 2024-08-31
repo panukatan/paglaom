@@ -65,7 +65,11 @@ paglaom_create_weekly_release <- function(repo = "panukatan/paglaom",
 #' Create data upload to GitHub
 #'
 
-paglaom_upload_weekly_release <- function(repo = "panukatan/paglaom",
+paglaom_upload_weekly_release <- function(climate_download_files,
+                                          cyclone_reports_download_files,
+                                          dam_level_data_files,
+                                          heat_index_download_files,
+                                          repo = "panukatan/paglaom",
                                           tag) {
   zipdir <- tempdir()
   zip_climate <- file.path(zipdir, "climate.zip")

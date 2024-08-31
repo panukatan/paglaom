@@ -156,17 +156,91 @@ The project repository is structured as follows:
 
 ## The workflow
 
-Currently, the project curates the following datasets:
+Currently, the project has workflows that curatee the following
+datasets:
 
 1.  Tropical cyclones data for various cyclones entering the Philippine
     area of responsibility since 2017;
 
+<!-- end list -->
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated --> x721677a433d907a0["cyclones_peak_data"]:::outdated
+    x6f87cfcc96bb274d(["cyclone_reports_links"]):::outdated --> x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated
+    x721677a433d907a0["cyclones_peak_data"]:::outdated --> xdc5659ed1b9a196a(["cyclones_peak_data_csv"]):::outdated
+  end
+```
+
 2.  Daily heat index data from various data collection points in the
     Philippines;
 
+<!-- end list -->
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    x567709ab5f0adc71(["heat_index_pubfiles_url"]):::outdated --> x56bd7c118ed46a38(["heat_index_links"]):::outdated
+    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> x113a83dcec46090f(["heat_index_links_urls"]):::outdated
+    xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
+    x113a83dcec46090f(["heat_index_links_urls"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
+    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated
+  end
+```
+
 3.  Climatological extremes and normals data over time; and,
 
+<!-- end list -->
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x84b857e732ff3c29(["pagasa_weather_stations"]):::outdated
+    xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate --> x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
+    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
+    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
+  end
+```
+
 4.  Daily dam water level data.
+
+<!-- end list -->
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    x0de96327cc07b160(["dam_level_data"]):::outdated --> x202d34e7af3ea1c1(["dam_level_data_raw_csv"]):::outdated
+    xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate --> xfa0b497de91938bb(["dam_level_data_csv"]):::uptodate
+    x7255575025352eb6(["dam_level_data_files"]):::uptodate --> xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate
+    xc77bb431ac7c3081(["dam_level_url"]):::uptodate --> x0de96327cc07b160(["dam_level_data"]):::outdated
+  end
+```
+
+The project also has a workflow for weekly GitHub release of the various
+raw datasets.
+
+``` mermaid
+graph LR
+  style Graph fill:#FFFFFF00,stroke:#000000;
+  subgraph Graph
+    direction LR
+    x8e2305bde709e13c(["paglaom_weekly_release_tag"]):::outdated --> x2ee1cead5469690e(["paglaom_weekly_release"]):::outdated
+  end
+```
 
 ## Reproducibility
 
@@ -176,5 +250,6 @@ This project was built using `R 4.4.1`. This project uses the `renv`
 framework to record R package dependencies and versions. Packages and
 versions used are recorded in `renv.lock` and code used to manage
 dependencies is in `renv/` and other files in the root project
-directory. On starting an R session in the working directory, run
-`renv::restore()` to install R package dependencies.
+directory. After cloning this repository, start an R session in the
+project’s working directory and then run `renv::restore()` to install
+all R package dependencies.

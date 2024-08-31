@@ -93,19 +93,84 @@ paglaom
 
 ## The workflow
 
-Currently, the project curates the following datasets:
+Currently, the project has workflows that curatee the following datasets:
 
 1. Tropical cyclones data for various cyclones entering the Philippine area of responsibility since 2017;
 
+```{r cyclones_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+cat(
+  "```mermaid",
+  targets::tar_mermaid(
+    targets_only = TRUE, color = FALSE, legend = FALSE, 
+    script = "_targets_cyclones.R"
+  ),
+  "```",
+  sep = "\n"
+)
+```
+
+
 2. Daily heat index data from various data collection points in the Philippines;
+
+```{r heat_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+cat(
+  "```mermaid",
+  targets::tar_mermaid(
+    targets_only = TRUE, color = FALSE, legend = FALSE, 
+    script = "_targets_heat.R"
+  ),
+  "```",
+  sep = "\n"
+)
+```
+
 
 3. Climatological extremes and normals data over time; and,
 
+```{r climate_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+cat(
+  "```mermaid",
+  targets::tar_mermaid(
+    targets_only = TRUE, color = FALSE, legend = FALSE, 
+    script = "_targets_climate.R"
+  ),
+  "```",
+  sep = "\n"
+)
+```
+
+
 4. Daily dam water level data.
+
+```{r dam_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+cat(
+  "```mermaid",
+  targets::tar_mermaid(
+    targets_only = TRUE, color = FALSE, legend = FALSE, 
+    script = "_targets_dam.R"
+  ),
+  "```",
+  sep = "\n"
+)
+```
+
+The project also has a workflow for weekly GitHub release of the various raw datasets.
+
+```{r release_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+cat(
+  "```mermaid",
+  targets::tar_mermaid(
+    targets_only = TRUE, color = FALSE, legend = FALSE, 
+    script = "_targets_releases.R"
+  ),
+  "```",
+  
+  sep = "\n"
+)
+```
 
 ## Reproducibility
 
 ### R package dependencies
 
-This project was built using `R 4.4.1`. This project uses the `renv` framework to record R package dependencies and versions. Packages and versions used are recorded in `renv.lock` and code used to manage dependencies is in `renv/` and other files in the root project directory. On starting an R session in the working directory, run `renv::restore()` to install R package dependencies.
-
+This project was built using `R 4.4.1`. This project uses the `renv` framework to record R package dependencies and versions. Packages and versions used are recorded in `renv.lock` and code used to manage dependencies is in `renv/` and other files in the root project directory. After cloning this repository, start an R session in the project's working directory and then run `renv::restore()` to install all R package dependencies.
