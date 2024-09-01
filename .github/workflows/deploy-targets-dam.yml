@@ -38,7 +38,7 @@ jobs:
         
       - name: Run workflow
         run: |
-          targets::tar_make(script = "_targets_dam.R")
+          targets::tar_make(dam_level_data_raw_csv)
         shell: Rscript {0}
 
       - name: Commit and push files

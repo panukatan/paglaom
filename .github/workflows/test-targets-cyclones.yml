@@ -34,5 +34,5 @@ jobs:
         
       - name: Run workflow
         run: |
-          targets::tar_make(script = "_targets_cyclones.R")
+          targets::tar_make(dplyr::starts_with("cyclone"))
         shell: Rscript {0}
