@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![License for
+code](https://img.shields.io/badge/license%20\(for%20code\)-GPL3.0-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
+[![License for
+data](https://img.shields.io/badge/license%20\(for%20data\)-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -28,9 +32,9 @@ This repository is a
 [`{targets}`](https://docs.ropensci.org/targets/)-based,
 [`{renv}`](https://rstudio.github.io/renv/articles/renv.html)-enabled
 [`R`](https://cran.r-project.org/) workflow for the retrieval,
-processing, and curation of various Philippine Atmospheric, Geophysical,
-and Astronomical Services Administration (PAGASA) publicly available
-datasets.
+processing, and curation of various [Philippine Atmospheric,
+Geophysical, and Astronomical Services Administration
+(PAGASA)](https://www.pagasa.dost.gov.ph/) publicly available datasets.
 
 ## Why `paglaom`?
 
@@ -50,13 +54,10 @@ made publicly available by PAGASA on their website. These datasets tend
 to be summaries of the multitude of data that PAGASA collects on a high
 frequency basis. They also tend to be in formats that are not
 machine-readable (e.g., PDF, PNG, HTML formats) meant for reporting to
-the Philippine population rather than actual datasets that are usable
-for academic and/or professional research. PAGASA does provide more
-granular and expansive datasets for research purposes through a specific
-data request process. The `paglaom` project doesn’t aim to perform
-research on the summarised datasets provided publicly on the PAGASA
-website. Rather, the project aims to showcase publicly avaialble data
-that can be used for educational purposes some of which are:
+the Philippine population. PAGASA does provide more granular and
+expansive datasets through a specific data request process. The
+`paglaom` project aims to showcase publicly available PAGASA data that
+can be used for various purposes some of which are:
 
   - for students who need to make a report on topics covered by PAGASA’s
     summarised data for a school assignment or project;
@@ -111,13 +112,13 @@ The project repository is structured as follows:
   - `data/` contains intermediate and final data outputs produced by the
     workflow.
 
-  - `data-raw/` contains raw datasets, usually either downloaded from
-    source or added manually, that are used in the project. This
-    directory is empty given that the raw datasets used in this project
-    are restricted and are only distributed to eligible members of the
-    project. This directory is kept here to maintain reproducibility of
+  - `data-raw/` contains raw datasets downloaded from publicly available
+    PAGASA sources that are used in the project. This directory is empty
+    given that the raw datasets from PAGASA are in large file size
+    formats that are not ideal for git versioning hence they are git
+    ignored. This directory is kept here to maintain reproducibility of
     project directory structure and ensure that the workflow runs as
-    expected.
+    expected when run locally.
 
   - `outputs/` contains compiled reports and figures produced by the
     workflow.
@@ -154,13 +155,29 @@ The project repository is structured as follows:
   - `_targets.yaml` file defines the different targets sub-projects
     within this project.
 
-## The workflow
+## Reproducibility
 
-Currently, the project has workflows that curatee the following
-datasets:
+### R package dependencies
+
+This project was built using `R 4.4.1`. This project uses the `renv`
+framework to record R package dependencies and versions. Packages and
+versions used are recorded in `renv.lock` and code used to manage
+dependencies is in `renv/` and other files in the root project
+directory. After cloning this repository, start an R session in the
+project’s working directory and then run
+
+``` r
+renv::restore()
+```
+
+to install all R package dependencies.
+
+### Running the workflow
+
+Currently, the project has workflows that curate the following datasets:
 
 1.  Tropical cyclones data for various cyclones entering the Philippine
-    area of responsibility since 2017;
+    area of responsibility since 2017
 
 <!-- end list -->
 
@@ -176,7 +193,7 @@ graph LR
 ```
 
 2.  Daily heat index data from various data collection points in the
-    Philippines;
+    Philippines
 
 <!-- end list -->
 
@@ -193,7 +210,7 @@ graph LR
   end
 ```
 
-3.  Climatological extremes and normals data over time; and,
+3.  Climatological extremes and normals data over time
 
 <!-- end list -->
 
@@ -214,7 +231,7 @@ graph LR
   end
 ```
 
-4.  Daily dam water level data.
+4.  Daily dam water level data
 
 <!-- end list -->
 
@@ -230,6 +247,60 @@ graph LR
   end
 ```
 
+To run any of these workflows, run the following command on the R
+console:
+
+``` r
+targets::tar_make(script = "NAME_OF_TARGET_SCRIPT_R_FILE")
+```
+
+replacing `"NAME_OF_TARGET_SCRIPT_R_FILE"` with the name of the target
+script file for the specific workflow. For example, to run the cyclones
+workflow from R console:
+
+``` r
+targets::tar_make(script = "_targets_cyclones.R")
+```
+
+or from the command line/terminal as follows:
+
+``` bash
+Rscript -e "targets::tar_make(script = "_targets_cyclones.R)"
+```
+
+Running specific components of a workflow involves specifying a target
+name or target names of the components you want to run. You should be
+able to run a full workflow path by just specifying the name of the last
+target in the workflow sequence. For example, the following will run the
+entire cyclones data workflow (as an alternative to what is shown
+above):
+
+``` r
+targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")
+```
+
+or from the command line/terminal as follows:
+
+``` bash
+Rscript -e "targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")"
+```
+
+The target `cyclones_peak_data_csv` is the last target of the cyclones
+data workflow. Hence, to be able to produce the `cyclones_peak_data_csv`
+target requires running this series of linked targets.
+
+If you would like to run a set of interrelated but not fully linked
+targets, you will need to specify more than one target name. For this,
+you can use `tidyselect` approaches to name targets to be run. For
+example:
+
+``` r
+targets::tar_make(dplyr::starts_with("cyclone"), script = "_targets_cyclones.R")
+```
+
+will run all targets in the cyclones data workflow whose names start
+with *“cyclone”*.
+
 The project also has a workflow for weekly GitHub release of the various
 raw datasets.
 
@@ -242,14 +313,15 @@ graph LR
   end
 ```
 
-## Reproducibility
+## Author
 
-### R package dependencies
+  - [Ernest Guevarra](https://github.com/ernestguevarra)
 
-This project was built using `R 4.4.1`. This project uses the `renv`
-framework to record R package dependencies and versions. Packages and
-versions used are recorded in `renv.lock` and code used to manage
-dependencies is in `renv/` and other files in the root project
-directory. After cloning this repository, start an R session in the
-project’s working directory and then run `renv::restore()` to install
-all R package dependencies.
+## Licenses
+
+All code created through this project (found in this repository) is
+released under a [GPL-3.0
+license](https://opensource.org/licenses/gpl-3.0.html) license.
+
+Data provided through this project are released under a
+[CC0](https://creativecommons.org/publicdomain/zero/1.0/) license.
