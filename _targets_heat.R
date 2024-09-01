@@ -5,7 +5,7 @@
 ################################################################################
 
 ## Data targets ----------------------------------------------------------------
-data_targets <- tar_plan(
+heat_data_targets <- tar_plan(
   ### Set PAGASA heat index pubfiles URL ----
   tar_target(
     name = heat_index_pubfiles_url,
@@ -43,30 +43,30 @@ data_targets <- tar_plan(
 
 
 ## Processing targets ----------------------------------------------------------
-processing_targets <- tar_plan(
+heat_processing_targets <- tar_plan(
   
 )
 
 
 ## Analysis targets ------------------------------------------------------------
-analysis_targets <- tar_plan(
+heat_analysis_targets <- tar_plan(
   
 )
 
 
 ## Output targets --------------------------------------------------------------
-output_targets <- tar_plan(
+heat_output_targets <- tar_plan(
   
 )
 
 
 ## Reporting targets -----------------------------------------------------------
-report_targets <- tar_plan(
+heat_report_targets <- tar_plan(
   
 )
 
 
 ## Deploy targets --------------------------------------------------------------
-deploy_targets <- tar_plan(
+heat_deploy_targets <- tar_plan(
   
 )
