@@ -17,12 +17,7 @@ release_targets <- tar_plan(
   tar_target(
     name = paglaom_weekly_release,
     command = paglaom_upload_weekly_release(
-      climate_download_files,
-      cyclone_reports_download_files,
-      dam_level_data_files,
-      heat_index_download_files,
-      #tag = paglaom_weekly_release_tag
-      tag = "1.8.34"
+      tag = paglaom_weekly_release_tag
     )
   )
 )

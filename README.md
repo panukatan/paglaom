@@ -177,73 +177,30 @@ to install all R package dependencies.
 Currently, the project has workflows that curate the following datasets:
 
 1.  Tropical cyclones data for various cyclones entering the Philippine
-    area of responsibility since 2017
-
-<!-- end list -->
-
-``` mermaid
-graph LR
-  style Graph fill:#FFFFFF00,stroke:#000000;
-  subgraph Graph
-    direction LR
-    x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated --> x721677a433d907a0["cyclones_peak_data"]:::outdated
-    x6f87cfcc96bb274d(["cyclone_reports_links"]):::outdated --> x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated
-    x721677a433d907a0["cyclones_peak_data"]:::outdated --> xdc5659ed1b9a196a(["cyclones_peak_data_csv"]):::outdated
-  end
-```
+    area of responsibility since 2017;
 
 2.  Daily heat index data from various data collection points in the
-    Philippines
+    Philippines;
 
-<!-- end list -->
+3.  Climatological extremes and normals data over time; and,
+
+4.  Daily dam water level data.
+
+The following diagram illustrates these workflows
 
 ``` mermaid
 graph LR
   style Graph fill:#FFFFFF00,stroke:#000000;
   subgraph Graph
     direction LR
-    x567709ab5f0adc71(["heat_index_pubfiles_url"]):::outdated --> x56bd7c118ed46a38(["heat_index_links"]):::outdated
     x56bd7c118ed46a38(["heat_index_links"]):::outdated --> x113a83dcec46090f(["heat_index_links_urls"]):::outdated
+    x567709ab5f0adc71(["heat_index_pubfiles_url"]):::uptodate --> x56bd7c118ed46a38(["heat_index_links"]):::outdated
+    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
+    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
     xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
     x113a83dcec46090f(["heat_index_links_urls"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
     x56bd7c118ed46a38(["heat_index_links"]):::outdated --> xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated
-  end
-```
-
-3.  Climatological extremes and normals data over time
-
-<!-- end list -->
-
-``` mermaid
-graph LR
-  style Graph fill:#FFFFFF00,stroke:#000000;
-  subgraph Graph
-    direction LR
-    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x84b857e732ff3c29(["pagasa_weather_stations"]):::outdated
     xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate --> x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
-    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
-  end
-```
-
-4.  Daily dam water level data
-
-<!-- end list -->
-
-``` mermaid
-graph LR
-  style Graph fill:#FFFFFF00,stroke:#000000;
-  subgraph Graph
-    direction LR
-    x0de96327cc07b160(["dam_level_data"]):::outdated --> x202d34e7af3ea1c1(["dam_level_data_raw_csv"]):::outdated
-    xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate --> xfa0b497de91938bb(["dam_level_data_csv"]):::uptodate
-    x7255575025352eb6(["dam_level_data_files"]):::uptodate --> xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate
-    xc77bb431ac7c3081(["dam_level_url"]):::uptodate --> x0de96327cc07b160(["dam_level_data"]):::outdated
   end
 ```
 
@@ -251,21 +208,20 @@ To run any of these workflows, run the following command on the R
 console:
 
 ``` r
-targets::tar_make(script = "NAME_OF_TARGET_SCRIPT_R_FILE")
+targets::tar_make(dplyr::starts_with("PREFIX"))
 ```
 
-replacing `"NAME_OF_TARGET_SCRIPT_R_FILE"` with the name of the target
-script file for the specific workflow. For example, to run the cyclones
-workflow from R console:
+replacing `"PREFIX"` with the keyword for the type of data. For example,
+to run the cyclones workflow from R console:
 
 ``` r
-targets::tar_make(script = "_targets_cyclones.R")
+targets::tar_make(dplyr::starts_with("cyclone"))
 ```
 
 or from the command line/terminal as follows:
 
 ``` bash
-Rscript -e "targets::tar_make(script = "_targets_cyclones.R)"
+Rscript -e "targets::tar_make(dplyr::starts_with('cyclone'))"
 ```
 
 Running specific components of a workflow involves specifying a target
@@ -276,13 +232,13 @@ entire cyclones data workflow (as an alternative to what is shown
 above):
 
 ``` r
-targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")
+targets::tar_make(cyclones_peak_data_csv)
 ```
 
 or from the command line/terminal as follows:
 
 ``` bash
-Rscript -e "targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")"
+Rscript -e "targets::tar_make(cyclones_peak_data_csv)"
 ```
 
 The target `cyclones_peak_data_csv` is the last target of the cyclones
@@ -295,11 +251,10 @@ you can use `tidyselect` approaches to name targets to be run. For
 example:
 
 ``` r
-targets::tar_make(dplyr::starts_with("cyclone"), script = "_targets_cyclones.R")
+targets::tar_make(dplyr::starts_with(c("cyclone", "dam"))
 ```
 
-will run all targets in the cyclones data workflow whose names start
-with *“cyclone”*.
+will run all targets in the cyclones and dam levels data workflow.
 
 The project also has a workflow for weekly GitHub release of the various
 raw datasets.

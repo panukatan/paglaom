@@ -52,7 +52,8 @@ output_targets <- tar_plan(
   ### Output processed dam level data as CSV ----
   tar_target(
     name = dam_level_data_csv,
-    command = dam_archive_processed(dam_level_data_processed)
+    command = dam_archive_processed(dam_level_data_processed),
+    format = "file"
   )
 )
 

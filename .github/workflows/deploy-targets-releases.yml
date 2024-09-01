@@ -40,13 +40,13 @@ jobs:
         
       - name: Run workflows
         run: |
-          targets::tar_make(script = "_targets_climate.R")
-          targets::tar_make(script = "_targets_cyclones.R")
-          targets::tar_make(script = "_targets_dam.R")
+          targets::tar_make(climate_download_files)
+          targets::tar_make(cyclone_reports_download_files)
+          targets::tar_make(dam_level_data_raw_csv)
         shell: Rscript {0}
         
       - name: Create weekly data release
         run: |
-          targets::tar_make(script = "_targets_releases.R")
+          targets::tar_make(paglaom_weekly_release)
         shell: Rscript {0}
         
