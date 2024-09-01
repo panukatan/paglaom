@@ -10,16 +10,21 @@ source("_targets_setup.R")
 
 ## Create targets and list targets objects -------------------------------------
 
-### Data targets
-data_targets <- tar_plan(
-  
-)
+
+### Cyclones targets ----
+source("_targets_cyclones.R")
 
 
-### Processing targets
-processing_targets <- tar_plan(
-  
-)
+### Climate targets ----
+source("_targets_climate.R")
+
+
+### Dam targets ----
+source("_targets_dam.R")
+
+
+### Heat Index targets ----
+source("_targets_heat.R")
 
 
 ### Analysis targets
@@ -46,5 +51,9 @@ deploy_targets <- tar_plan(
 )
 
 
-## List targets
+### Releases targets ----
+source("_targets_releases.R")
+
+
+## List targets ----------------------------------------------------------------
 all_targets()

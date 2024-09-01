@@ -110,94 +110,57 @@ to install all R package dependencies.
 
 Currently, the project has workflows that curate the following datasets:
 
-1. Tropical cyclones data for various cyclones entering the Philippine area of responsibility since 2017
+1. Tropical cyclones data for various cyclones entering the Philippine area of responsibility since 2017;
 
-```{r cyclones_workflow, echo = FALSE, message = FALSE, results = 'asis'}
+2. Daily heat index data from various data collection points in the Philippines;
+
+3. Climatological extremes and normals data over time; and,
+
+4. Daily dam water level data.
+
+The following diagram illustrates these workflows
+
+```{r overall_workflow, echo = FALSE, message = FALSE, results = 'asis'}
 cat(
   "```mermaid",
   targets::tar_mermaid(
-    targets_only = TRUE, color = FALSE, legend = FALSE, 
-    script = "_targets_cyclones.R"
+    targets_only = TRUE, 
+    names = dplyr::starts_with(c("climate", "cyclone", "dam", "heat")),
+    color = FALSE, legend = FALSE
   ),
   "```",
   sep = "\n"
 )
 ```
-
-
-2. Daily heat index data from various data collection points in the Philippines
-
-```{r heat_workflow, echo = FALSE, message = FALSE, results = 'asis'}
-cat(
-  "```mermaid",
-  targets::tar_mermaid(
-    targets_only = TRUE, color = FALSE, legend = FALSE, 
-    script = "_targets_heat.R"
-  ),
-  "```",
-  sep = "\n"
-)
-```
-
-
-3. Climatological extremes and normals data over time
-
-```{r climate_workflow, echo = FALSE, message = FALSE, results = 'asis'}
-cat(
-  "```mermaid",
-  targets::tar_mermaid(
-    targets_only = TRUE, color = FALSE, legend = FALSE, 
-    script = "_targets_climate.R"
-  ),
-  "```",
-  sep = "\n"
-)
-```
-
-
-4. Daily dam water level data
-
-```{r dam_workflow, echo = FALSE, message = FALSE, results = 'asis'}
-cat(
-  "```mermaid",
-  targets::tar_mermaid(
-    targets_only = TRUE, color = FALSE, legend = FALSE, 
-    script = "_targets_dam.R"
-  ),
-  "```",
-  sep = "\n"
-)
-```
-
 
 To run any of these workflows, run the following command on the R console:
 
 ```R
-targets::tar_make(script = "NAME_OF_TARGET_SCRIPT_R_FILE")
+targets::tar_make(dplyr::starts_with("PREFIX"))
 ```
 
-replacing `"NAME_OF_TARGET_SCRIPT_R_FILE"` with the name of the target script file for the specific workflow. For example, to run the cyclones workflow from R console:
+replacing `"PREFIX"` with the keyword for the type of data. For example, to run the cyclones workflow from R console:
 
 ```R
-targets::tar_make(script = "_targets_cyclones.R")
+targets::tar_make(dplyr::starts_with("cyclone"))
 ```
 
 or from the command line/terminal as follows:
 
 ```Bash
-Rscript -e "targets::tar_make(script = "_targets_cyclones.R)"
+Rscript -e "targets::tar_make(dplyr::starts_with('cyclone'))"
 ```
 
 Running specific components of a workflow involves specifying a target name or target names of the components you want to run. You should be able to run a full workflow path by just specifying the name of the last target in the workflow sequence. For example, the following will run the entire cyclones data workflow (as an alternative to what is shown above):
 
 ```R
-targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")
+targets::tar_make(cyclones_peak_data_csv)
 ```
 
 or from the command line/terminal as follows:
 
 ```Bash
-Rscript -e "targets::tar_make(cyclones_peak_data_csv, script = "_targets_cyclones.R")"
+Rscript -e "targets::tar_make(cyclones_peak_data_csv)"
 ```
 
 The target `cyclones_peak_data_csv` is the last target of the cyclones data workflow. Hence, to be able to produce the `cyclones_peak_data_csv` target requires running this series of linked targets.
@@ -205,10 +168,10 @@ The target `cyclones_peak_data_csv` is the last target of the cyclones data work
 If you would like to run a set of interrelated but not fully linked targets, you will need to specify more than one target name. For this, you can use `tidyselect` approaches to name targets to be run. For example:
 
 ```R
-targets::tar_make(dplyr::starts_with("cyclone"), script = "_targets_cyclones.R")
+targets::tar_make(dplyr::starts_with(c("cyclone", "dam"))
 ```
 
-will run all targets in the cyclones data workflow whose names start with *"cyclone"*.
+will run all targets in the cyclones and dam levels data workflow.
 
 The project also has a workflow for weekly GitHub release of the various raw datasets.
 
@@ -216,11 +179,10 @@ The project also has a workflow for weekly GitHub release of the various raw dat
 cat(
   "```mermaid",
   targets::tar_mermaid(
-    targets_only = TRUE, color = FALSE, legend = FALSE, 
-    script = "_targets_releases.R"
+    targets_only = TRUE, names = dplyr::starts_with("paglaom_weekly"),
+    color = FALSE, legend = FALSE
   ),
   "```",
-  
   sep = "\n"
 )
 ```

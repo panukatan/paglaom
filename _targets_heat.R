@@ -4,13 +4,7 @@
 #
 ################################################################################
 
-## Setup workflow using project-wide settings ----------------------------------
-source("_targets_setup.R")
-
-
-## Create targets and list targets objects -------------------------------------
-
-### Data targets
+## Data targets ----------------------------------------------------------------
 data_targets <- tar_plan(
   ### Set PAGASA heat index pubfiles URL ----
   tar_target(
@@ -48,35 +42,31 @@ data_targets <- tar_plan(
 )
 
 
-### Processing targets
+## Processing targets ----------------------------------------------------------
 processing_targets <- tar_plan(
   
 )
 
 
-### Analysis targets
+## Analysis targets ------------------------------------------------------------
 analysis_targets <- tar_plan(
   
 )
 
 
-### Output targets
+## Output targets --------------------------------------------------------------
 output_targets <- tar_plan(
   
 )
 
 
-### Reporting targets
+## Reporting targets -----------------------------------------------------------
 report_targets <- tar_plan(
   
 )
 
 
-### Deploy targets
+## Deploy targets --------------------------------------------------------------
 deploy_targets <- tar_plan(
   
 )
-
-
-## List targets
-all_targets()
