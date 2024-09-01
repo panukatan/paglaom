@@ -4,10 +4,6 @@
 #
 ################################################################################
 
-## Setup workflow using project-wide settings ----------------------------------
-source("_targets_setup.R")
-
-
 ## Download targets ------------------------------------------------------------
 
 download_targets <- tar_plan(
@@ -92,7 +88,3 @@ report_targets <- tar_plan(
 deploy_targets <- tar_plan(
 
 )
-
-
-## List targets ----------------------------------------------------------------
-all_targets()

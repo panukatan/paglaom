@@ -4,10 +4,6 @@
 #
 ################################################################################
 
-## Setup workflow using project-wide settings ----------------------------------
-source("_targets_setup.R")
-
-
 ## Release targets -------------------------------------------------------------
 
 release_targets <- tar_plan(
@@ -25,7 +21,8 @@ release_targets <- tar_plan(
       cyclone_reports_download_files,
       dam_level_data_files,
       heat_index_download_files,
-      tag = paglaom_weekly_release_tag
+      #tag = paglaom_weekly_release_tag
+      tag = "1.8.34"
     )
   )
 )

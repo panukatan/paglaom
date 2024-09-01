@@ -4,13 +4,7 @@
 #
 ################################################################################
 
-# Setup workflow using project-wide settings ----------------------------------
-source("_targets_setup.R")
-
-
-# Create targets and list targets objects -------------------------------------
-
-## Data targets
+## Data targets ----------------------------------------------------------------
 data_targets <- tar_plan(
   ### Set PAGASA dam level URL ----
   tar_target(
@@ -31,7 +25,7 @@ data_targets <- tar_plan(
 )
 
 
-## Processing targets
+## Processing targets ----------------------------------------------------------
 processing_targets <- tar_plan(
   ### Processing daily dam level data ----
   tar_target(
@@ -41,13 +35,13 @@ processing_targets <- tar_plan(
 )
 
 
-## Analysis targets
+## Analysis targets ------------------------------------------------------------
 analysis_targets <- tar_plan(
   
 )
 
 
-## Output targets
+## Output targets --------------------------------------------------------------
 output_targets <- tar_plan(
   ### Output dam level data as CSV ----
   tar_target(
@@ -73,7 +67,3 @@ report_targets <- tar_plan(
 deploy_targets <- tar_plan(
   
 )
-
-
-## List targets
-all_targets()
