@@ -5,7 +5,7 @@
 ################################################################################
 
 ## Data targets ----------------------------------------------------------------
-data_targets <- tar_plan(
+dam_data_targets <- tar_plan(
   ### Set PAGASA dam level URL ----
   tar_target(
     name = dam_level_url,
@@ -26,7 +26,7 @@ data_targets <- tar_plan(
 
 
 ## Processing targets ----------------------------------------------------------
-processing_targets <- tar_plan(
+dam_processing_targets <- tar_plan(
   ### Processing daily dam level data ----
   tar_target(
     name = dam_level_data_processed,
@@ -36,13 +36,13 @@ processing_targets <- tar_plan(
 
 
 ## Analysis targets ------------------------------------------------------------
-analysis_targets <- tar_plan(
+dam_analysis_targets <- tar_plan(
   
 )
 
 
 ## Output targets --------------------------------------------------------------
-output_targets <- tar_plan(
+dam_output_targets <- tar_plan(
   ### Output dam level data as CSV ----
   tar_target(
     name = dam_level_data_raw_csv,
@@ -59,12 +59,12 @@ output_targets <- tar_plan(
 
 
 ### Reporting targets
-report_targets <- tar_plan(
+dam_report_targets <- tar_plan(
   
 )
 
 
 ### Deploy targets
-deploy_targets <- tar_plan(
+dam_deploy_targets <- tar_plan(
   
 )

@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 [![License for code](https://img.shields.io/badge/license (for code)-GPL3.0-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
 [![License for data](https://img.shields.io/badge/license (for data)-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![test targets workflow](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml/badge.svg)](https://github.com/panukatan/pagasa_db/actions/workflows/test-targets-workflow.yml)
 [![test targets climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
 [![test targets cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml)
 [![test targets dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
@@ -125,7 +124,7 @@ cat(
   "```mermaid",
   targets::tar_mermaid(
     targets_only = TRUE, 
-    names = dplyr::starts_with(c("climate", "cyclone", "dam", "heat")),
+    names = dplyr::starts_with(c("climate_", "cyclone_", "cylones_", "dam_", "heat_")),
     color = FALSE, legend = FALSE
   ),
   "```",

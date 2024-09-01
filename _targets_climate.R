@@ -6,7 +6,7 @@
 
 ## Download targets ------------------------------------------------------------
 
-download_targets <- tar_plan(
+climate_download_targets <- tar_plan(
   ### Set PAGASA climate pubfiles URL ----
   tar_target(
     name = climate_pubfiles_url,
@@ -39,7 +39,7 @@ download_targets <- tar_plan(
 
 
 ## Processing targets ----------------------------------------------------------
-processing_targets <- tar_plan(
+climate_processing_targets <- tar_plan(
   tar_target(
     name = pagasa_weather_stations,
     command = get_weather_station_info(climate_download_files)
@@ -68,23 +68,23 @@ processing_targets <- tar_plan(
 
 
 ## Analysis targets ------------------------------------------------------------
-analysis_targets <- tar_plan(
+climate_analysis_targets <- tar_plan(
   
 )
 
 
 ## Output targets --------------------------------------------------------------
-output_targets <- tar_plan(
+climate_output_targets <- tar_plan(
 )
 
 
 ## Reporting targets -----------------------------------------------------------
-report_targets <- tar_plan(
+climate_report_targets <- tar_plan(
   
 )
 
 
 ## Deploy targets --------------------------------------------------------------
-deploy_targets <- tar_plan(
+climate_deploy_targets <- tar_plan(
 
 )

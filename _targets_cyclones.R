@@ -6,7 +6,7 @@
 
 ## Download targets ------------------------------------------------------------
 
-download_targets <- tar_plan(
+cyclones_download_targets <- tar_plan(
   ### Get download links ----
   tar_target(
     name = cyclone_reports_links,
@@ -27,7 +27,7 @@ download_targets <- tar_plan(
 
 
 ## Data targets ----------------------------------------------------------------
-data_targets <- tar_plan(
+cyclones_data_targets <- tar_plan(
   ### Process cyclones peak data ----
   tar_target(
     name = cyclones_peak_data,
@@ -51,30 +51,30 @@ data_targets <- tar_plan(
 
 
 ## Processing targets ----------------------------------------------------------
-processing_targets <- tar_plan(
+cyclones_processing_targets <- tar_plan(
   
 )
 
 
 ## Analysis targets ------------------------------------------------------------
-analysis_targets <- tar_plan(
+cyclones_analysis_targets <- tar_plan(
   
 )
 
 
 ## Output targets --------------------------------------------------------------
-output_targets <- tar_plan(
+cyclones_output_targets <- tar_plan(
   
 )
 
 
 ## Reporting targets -----------------------------------------------------------
-report_targets <- tar_plan(
+cycylones_report_targets <- tar_plan(
   
 )
 
 
 ## Deploy targets --------------------------------------------------------------
-deploy_targets <- tar_plan(
+cyclones_deploy_targets <- tar_plan(
 
 )
