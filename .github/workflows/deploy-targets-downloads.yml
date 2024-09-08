@@ -1,4 +1,4 @@
-name: deploy targets dam
+name: deploy targets download
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
       - '*'
 
 jobs:
-  deploy-targets-dam:
+  deploy-targets-download:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.1
     steps:
@@ -39,6 +39,7 @@ jobs:
       - name: Run workflow
         run: |
           targets::tar_make(dam_level_data_raw_csv)
+          targets::tar_make(forecasts_download_files)
         shell: Rscript {0}
 
       - name: Commit and push files
