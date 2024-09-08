@@ -19,7 +19,7 @@ cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cy
 [![test targets
 dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
 [![deploy targets
-dam](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml)
+download](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml)
 [![deploy targets
 releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
 [![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
@@ -186,31 +186,44 @@ Currently, the project has workflows that curate the following datasets:
 
 The following diagram illustrates these workflows
 
-``` mermaid
-graph LR
-  style Graph fill:#FFFFFF00,stroke:#000000;
-  subgraph Graph
-    direction LR
-    xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
-    x113a83dcec46090f(["heat_index_links_urls"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
-    x567709ab5f0adc71(["heat_index_pubfiles_url"]):::uptodate --> x56bd7c118ed46a38(["heat_index_links"]):::outdated
-    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> x113a83dcec46090f(["heat_index_links_urls"]):::outdated
-    xc77bb431ac7c3081(["dam_level_url"]):::uptodate --> x0de96327cc07b160(["dam_level_data"]):::outdated
-    xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate --> x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
-    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
-    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
-    x0de96327cc07b160(["dam_level_data"]):::outdated --> x202d34e7af3ea1c1(["dam_level_data_raw_csv"]):::outdated
-    xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate --> xfa0b497de91938bb(["dam_level_data_csv"]):::outdated
-    x7255575025352eb6(["dam_level_data_files"]):::uptodate --> xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate
-    x6f87cfcc96bb274d(["cyclone_reports_links"]):::outdated --> x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated
-    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
-  end
-```
+\-|/-|/-| `mermaid graph LR style Graph fill:#FFFFFF00,stroke:#000000;
+subgraph Graph direction LR
+x56bd7c118ed46a38(["heat_index_links"]):::outdated -->
+x113a83dcec46090f(["heat_index_links_urls"]):::outdated
+x567709ab5f0adc71(["heat_index_pubfiles_url"]):::uptodate -->
+x56bd7c118ed46a38(["heat_index_links"]):::outdated
+xc044beb81380bb4a["climate_download_files"]:::uptodate -->
+x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
+xc044beb81380bb4a["climate_download_files"]:::uptodate -->
+xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
+xc044beb81380bb4a["climate_download_files"]:::uptodate -->
+xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
+xc044beb81380bb4a["climate_download_files"]:::uptodate -->
+x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
+xc044beb81380bb4a["climate_download_files"]:::uptodate -->
+xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
+x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate -->
+xc044beb81380bb4a["climate_download_files"]:::uptodate
+x7255575025352eb6(["dam_level_data_files"]):::uptodate -->
+xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate
+x0de96327cc07b160(["dam_level_data"]):::outdated -->
+x202d34e7af3ea1c1(["dam_level_data_raw_csv"]):::outdated
+xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate -->
+xfa0b497de91938bb(["dam_level_data_csv"]):::outdated
+x56bd7c118ed46a38(["heat_index_links"]):::outdated -->
+xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated
+xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate -->
+x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
+xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated -->
+x4f749438c4164b8e["heat_index_download_files"]:::outdated
+x113a83dcec46090f(["heat_index_links_urls"]):::outdated -->
+x4f749438c4164b8e["heat_index_download_files"]:::outdated
+xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate -->
+xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
+xc77bb431ac7c3081(["dam_level_url"]):::uptodate -->
+x0de96327cc07b160(["dam_level_data"]):::outdated
+x6f87cfcc96bb274d(["cyclone_reports_links"]):::outdated -->
+x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated end`
 
 To run any of these workflows, run the following command on the R
 console:
@@ -267,14 +280,10 @@ will run all targets in the cyclones and dam levels data workflow.
 The project also has a workflow for weekly GitHub release of the various
 raw datasets.
 
-``` mermaid
-graph LR
-  style Graph fill:#FFFFFF00,stroke:#000000;
-  subgraph Graph
-    direction LR
-    x8e2305bde709e13c(["paglaom_weekly_release_tag"]):::outdated --> x2ee1cead5469690e(["paglaom_weekly_release"]):::outdated
-  end
-```
+\-|/-|/- `mermaid graph LR style Graph fill:#FFFFFF00,stroke:#000000;
+subgraph Graph direction LR
+x8e2305bde709e13c(["paglaom_weekly_release_tag"]):::outdated -->
+x2ee1cead5469690e(["paglaom_weekly_release"]):::outdated end`
 
 ## Author
 
