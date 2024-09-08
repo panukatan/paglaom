@@ -15,11 +15,17 @@ forecasts_download_targets <- tar_plan(
   tar_target(
     name = forecasts_download_files,
     command = forecasts_download(
-      url = forecasts_pubfiles_urls,
+      .url = forecasts_pubfiles_urls,
       directory = "data-raw/forecasts",
       overwrite = FALSE
     ),
     pattern = map(forecasts_pubfiles_urls),
+    format = "file"
+  ),
+  ### Download PAGASA agriculture forecasts PDF ----
+  tar_target(
+    name = forecasts_agriculture_download_files,
+    command = forecasts_agriculture_download(),
     format = "file"
   )
 )
@@ -39,6 +45,14 @@ forecasts_data_targets <- tar_plan(
     name = forecasts_data_raw,
     command = forecasts_get_data(forecasts_archive_pdfs),
     pattern = map(forecasts_archive_pdfs)
+  ),
+  ### List PAGASA agriculture forecasts data files ----
+  tar_target(
+    name = forecasts_agriculture_archive_pdfs,
+    command = list.files(
+      path = "data-raw/forecasts_agriculture", 
+      full.names = TRUE, recursive = TRUE
+    )
   )
 )
 
