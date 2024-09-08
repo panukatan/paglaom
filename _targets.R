@@ -27,6 +27,10 @@ source("_targets_dam.R")
 source("_targets_heat.R")
 
 
+### Forecasts targets ----
+source("_targets_forecasts.R")
+
+
 ### Analysis targets
 analysis_targets <- tar_plan(
   
