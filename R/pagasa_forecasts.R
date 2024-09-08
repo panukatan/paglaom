@@ -24,7 +24,7 @@ forecasts_create_urls <- function() {
 #'
 #' Download a PAGASA regional weather forecast PDF
 #' 
-#' @param url A URL to a PAGASA regional weather forecasts PDF.
+#' @param .url A URL to a PAGASA regional weather forecasts PDF.
 #' @param directory A direcotry path to download the PAGASA regional weather 
 #'   forecasts PDF to. Default is to current working directory.
 #' @param overwrite Logical. Should an existing file with the same file path be
@@ -41,7 +41,7 @@ forecasts_create_urls <- function() {
 #' @export
 #' 
 
-forecasts_download <- function(url, 
+forecasts_download <- function(.url, 
                                directory = "data-raw/forecasts",
                                overwrite = FALSE) {
   ## Quiet down ssl verification ----
@@ -52,7 +52,7 @@ forecasts_download <- function(url,
   destfile <- file.path(
     directory, Sys.Date(),
     stringr::str_remove(
-      string = url, 
+      string = .url, 
       pattern = "https://src.panahon.gov.ph/pubfiles/prsd/"
     )
   )
@@ -76,12 +76,12 @@ forecasts_download <- function(url,
   ) {
       ## Download file ----
       #download.file(url = url, destfile = destfile)
-      curl::curl_download(url = url, destfile = destfile, handle = h)
+      curl::curl_download(url = .url, destfile = destfile, handle = h)
   } else {
       if (overwrite) {
         ## Download file ----
         #download.file(url = url, destfile = destfile)
-        curl::curl_download(url = url, destfile = destfile, handle = h)
+        curl::curl_download(url = .url, destfile = destfile, handle = h)
       }
     }
 

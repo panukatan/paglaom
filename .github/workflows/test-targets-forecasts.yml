@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: [main, master]
   workflow_dispatch:
-    branches:
-      - '*'
 
 jobs:
   test-targets-forecasts:

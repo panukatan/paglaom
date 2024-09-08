@@ -1,4 +1,4 @@
-name: test targets climate
+name: test targets forecasts agriculture
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-targets-climate:
+  test-targets-forecasts-agriculture:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.1
     steps:
@@ -32,5 +32,5 @@ jobs:
         
       - name: Run workflow
         run: |
-          targets::tar_make(dplyr::starts_with("climate"))
+          targets::tar_make(dplyr::starts_with("forecasts_agriculture"))
         shell: Rscript {0}
