@@ -43,6 +43,7 @@ jobs:
           targets::tar_make(climate_download_files)
           targets::tar_make(cyclone_reports_download_files)
           targets::tar_make(dam_level_data_raw_csv)
+          targets::tar_make(forecasts_download_files)
         shell: Rscript {0}
         
       - name: Create weekly data release

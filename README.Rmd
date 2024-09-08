@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![test targets climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
 [![test targets cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml)
 [![test targets dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
-[![deploy targets dam](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-dam.yml)
+[![deploy targets download](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml)
 [![deploy targets releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
 [![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
 <!-- badges: end -->
@@ -65,7 +65,6 @@ paglaom
     |-- _targets_heat.R
     |-- _targets_setup.R
     |-- _targets.R
-    |-- _targets.yaml
 ```
 
 * `.github` contains project testing and automated deployment of outputs workflows via continuous integration and continuous deployment (CI/CD) using Github Actions.
@@ -90,9 +89,6 @@ paglaom
 
 * `_targets*.R` files define the steps in the workflow's data ingest, data processing, data analysis, and reporting pipelines.
 
-* `_targets.yaml` file defines the different targets sub-projects within this project.
-
-
 ## Reproducibility
 
 ### R package dependencies
@@ -113,9 +109,11 @@ Currently, the project has workflows that curate the following datasets:
 
 2. Daily heat index data from various data collection points in the Philippines;
 
-3. Climatological extremes and normals data over time; and,
+3. Climatological extremes and normals data over time;
 
-4. Daily dam water level data.
+4. Daily dam water level data; and,
+
+5. Daily weather forecasts.
 
 The following diagram illustrates these workflows
 
@@ -124,7 +122,7 @@ cat(
   "```mermaid",
   targets::tar_mermaid(
     targets_only = TRUE, 
-    names = dplyr::starts_with(c("climate_", "cyclone_", "cylones_", "dam_", "heat_")),
+    names = dplyr::starts_with(c("climate_", "cyclone_", "cylones_", "dam_", "heat_", "forecasts_")),
     color = FALSE, legend = FALSE
   ),
   "```",

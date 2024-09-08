@@ -72,6 +72,7 @@ paglaom_upload_weekly_release <- function(repo = "panukatan/paglaom",
   zip_cyclones <- file.path(zipdir, "cyclones.zip")
   zip_dam <- file.path(zipdir, "dam.zip")
   zip_heat <- file.path(zipdir, "heat_index.zip")
+  zip_forecasts <- file.path(zipdir, "forecasts.zip")
   
   ## zip climate files ----
   zip(
@@ -104,8 +105,16 @@ paglaom_upload_weekly_release <- function(repo = "panukatan/paglaom",
     )
   )
   
+  ## zip forecasts files ----
+  zip(
+    zip_forecasts, 
+    files = list.files(
+      path = "data-raw/forecasts", full.names = TRUE, recursive = TRUE
+    )
+  )
+
   lapply(
-    X = c(zip_climate, zip_cyclones, zip_dam, zip_heat),
+    X = c(zip_climate, zip_cyclones, zip_dam, zip_heat, zip_forecasts),
     FUN = piggyback::pb_upload,
     tag = tag
   )
