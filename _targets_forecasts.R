@@ -15,7 +15,7 @@ forecasts_download_targets <- tar_plan(
   tar_target(
     name = forecasts_download_files,
     command = forecasts_download(
-      url = forecasts_pubfiles_urls,
+      .url = forecasts_pubfiles_urls,
       directory = "data-raw/forecasts",
       overwrite = FALSE
     ),
