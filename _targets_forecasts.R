@@ -26,7 +26,8 @@ forecasts_download_targets <- tar_plan(
   tar_target(
     name = forecasts_agriculture_download_files,
     command = forecasts_agriculture_download(),
-    format = "file"
+    format = "file",
+    cue = tar_cue("always")
   )
 )
 
