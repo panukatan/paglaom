@@ -39,7 +39,8 @@ forecasts_data_targets <- tar_plan(
     name = forecasts_archive_pdfs,
     command = list.files(
       path = "data-raw/forecasts", full.names = TRUE, recursive = TRUE
-    )
+    ),
+    cue = tar_cue("always")
   ),
   ### Extract raw PAGASA forecasts data ----
   tar_target(
