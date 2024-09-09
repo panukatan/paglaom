@@ -303,7 +303,7 @@ forecasts_get_regional_summary <- function(.text) {
 #' 
 
 forecasts_get_weather <- function(.text) {
-  which(stringr::str_detect(string = .text, pattern = "Weather: "))[-1] |>
+  df <- which(stringr::str_detect(string = .text, pattern = "Weather: "))[-1] |>
     (\(x)
       {
         cbind(
@@ -315,7 +315,8 @@ forecasts_get_weather <- function(.text) {
               ) |>
                 unlist() |>
                 unique() |>
-                paste(collapse = "|")
+                #paste(collapse = "|")
+              (\(x) paste0("\\b", x) |> paste(collapse = "|"))()
             ) |>
             stringr::str_remove_all(pattern = "Weather: ") |>
             stringr::str_split(pattern = "\\s{2,}", simplify = TRUE), 
@@ -323,12 +324,14 @@ forecasts_get_weather <- function(.text) {
             stringr::str_remove_all(
               pattern = stringr::str_split(
                 string = pagasa_forecast_regions$geographic_unit,
-                pattern = stringr::boundary("word")
+                #pattern = stringr::boundary("word")
+                pattern = " "
               ) |>
                 unlist() |>
                 unique() |>
                 (\(x) paste0("\\b", x) |> paste(collapse = "|"))()
             ) |>
+              stringr::str_remove_all(pattern = "Weather: ") |>
             stringr::str_split(pattern = "\\s{2,}", simplify = TRUE)
         )
       }
@@ -341,6 +344,8 @@ forecasts_get_weather <- function(.text) {
         )
       }
     )()
+  
+  df
 }
 
 #'
