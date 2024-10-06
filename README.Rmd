@@ -195,4 +195,3 @@ cat(
 All code created through this project (found in this repository) is released under a [GPL-3.0 license](https://opensource.org/licenses/gpl-3.0.html) license.
 
 Data provided through this project are released under a [CC0](https://creativecommons.org/publicdomain/zero/1.0/) license.
-
