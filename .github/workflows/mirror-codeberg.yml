@@ -1,0 +1,21 @@
+name: Mirror to other git server
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  mirror-to-codeberg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: https://codeberg.org/panukatan/paglaom
+          GIT_USERNAME: ${{ secrets.CODEBERG_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.CODEBERG_TOKEN }}
