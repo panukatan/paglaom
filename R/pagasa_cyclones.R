@@ -571,7 +571,7 @@ cyclones_process_peak_2022 <- function(path_to_report) {
     dplyr::filter(y %in% 419:582) |>
     dplyr::pull(text) |>
     (\(x) x[x != "to"])() |>
-    (\(x) x[grep(pattern = "\\(", x = x, invert = TRUE)])() |>
+    grepv(pattern = "\\(", x = _, invert = TRUE) |>
     (\(x) ifelse(x == "Unnamed", NA_character_, x))() |>
     (\(x) c(x[1:77], "18", x[78:length(x)]))() |>
     (\(x) ifelse (x == "0921/18", "09/21", x))()
@@ -585,78 +585,50 @@ cyclones_process_peak_2022 <- function(path_to_report) {
   x_values <- x |>
     (\(x) matrix(data = x[109:144], ncol = 2, byrow = FALSE))()
 
-  y <- df_2022[[]]
-
-  x <- cbind(x_names, x_dates, x_values)
-    
-  # |>
-  #   matrix(ncol = 10, by = FALSE)
-  #   (\(x) c(
-  #     x[1:24], NA_character_, x[25:43], x[46:47], NA_character_,
-  #     x[48:88], x[91:112], x[115:149], NA_character_, x[150:168]
-  #   ))() |>
-  #   matrix(ncol = 11, byrow = TRUE) |>
-  #   data.frame() |>
-  #   tibble::tibble() |>
-  #   dplyr::rename_with(
-  #     .fn = function(x)
-  #       c("domestic_name", "international_name", "international_code",
-  #         "warning_start_date", "warning_start_time", "warning_end_date",
-  #         "warning_end_time", "peak_speed", "peak_pressure", "peak_date",
-  #         "peak_time")
-  #   ) |>
-  #   dplyr::mutate(
-  #     international_name = ifelse(
-  #       international_name == "Unnamed", NA_character_, international_name
-  #     ),
-  #     international_code = stringr::str_remove_all(
-  #       string = international_code, pattern = "\\(|\\)"
-  #     ),
-  #     warning_start = paste0(warning_start_date, "/2020 ", warning_start_time) |>
-  #       strptime(format = "%m/%d/%Y %H", tz = "UTC"),
-  #     warning_end = paste0(warning_end_date, "/2020 ", warning_end_time) |>
-  #       strptime(format = "%m/%d/%Y %H", tz = "UTC"),
-  #     dplyr::across(.cols = peak_pressure:peak_speed, .fns = ~as.integer(.x)),
-  #     peak_time = paste0(peak_date, "/2020 ", peak_time) |>
-  #       strptime(format = "%m/%d/%Y %H", tz = "UTC")
-  #   )
-  
-  set2_2021 <- df_2021[[42]] |>
-    dplyr::filter(y %in% 168:328) |>
+  y <- df_2022[[33]] |>
+    dplyr::filter(y %in% 149:312) |>
     dplyr::pull(text) |>
     (\(x) x[x != "to"])() |>
-    (\(x) c(
-      x[1:19], NA_character_, x[20:23], NA_character_,
-      x[24:28], NA_character_, x[29:43], NA_character_,
-      x[44:69], NA_character_, x[70:79], NA_character_,
-      x[80:112], paste(x[113:114], collapse = ""), x[115:140], NA_character_,
-      x[141:length(x)]
-    ))() |>
-    matrix(ncol = 11, byrow = TRUE) |>
-    data.frame() |>
-    tibble::tibble() |>
-    dplyr::rename_with(
-      .fn = function(x)
-        c("domestic_name", "international_name", "international_code",
-          "warning_start_date", "warning_start_time", "warning_end_date",
-          "warning_end_time", "duration_days", "duration_hours", "category_code",
-          "landfall")
-    ) |>
+    grepv(pattern = "\\(|[0-9]{1,2}d|[0-9]{1,2}h|[0-9]{1,2}.[0-9]{1,2}h", x = _, invert = TRUE) |>
+    (\(x) ifelse(x == "Unnamed", NA_character_, x))() |>
+    (\(x) c(x[1:92], "18", x[93:length(x)]))() |>
+    (\(x) c(x[1:42], "04/12", x[43:length(x)]))() |>
+    (\(x) ifelse(x == "10/18/18", "10/18", x))()
+
+  y_names <- y |>
+    (\(x) matrix(data = x[1:36], ncol = 2, byrow = FALSE))()
+
+  y_dates <- y |>
+    (\(x) matrix(data = x[37:108], ncol = 4, byrow = TRUE))()
+  
+  y_start <- paste0(
+    y_dates[ , 1], "/2022 ",
+    y_dates[ , 2] |>
+      (\(x) ifelse(grepl(pattern = "[0-9]{2}", x = x), paste0(x, "00"), x))()
+  ) |>
+    strptime(format = "%m/%d/%Y %H%M", tz = "UTC")
+
+  y_end <- paste0(
+    y_dates[ , 3], "/2022 ",
+    y_dates[ , 4] |>
+      (\(x) ifelse(grepl(pattern = "[0-9]{2}", x = x), paste0(x, "00"), x))()
+  ) |>
+    strptime(format = "%m/%d/%Y %H%M", tz = "UTC")
+
+  y_values <- y |>
+    (\(x) matrix(data = x[109:length(x)], ncol = 2, byrow = FALSE))()
+    
+  df_2022 <- tibble::tibble(
+    category_code = y_values[ , 1],
+    category_name = NA_character_,
+    domestic_name = stringr::str_to_sentence(string = x_names[ , 1]),
+    international_name = stringr::str_to_sentence(string = x_names[ , 2]),
+    warning_start = y_start,
+    warning_end = y_end,
+    peak_pressure = as.integer(x_values[ , 2]),
+    peak_speed = as.integer(x_values[ , 1])
+  ) |>
     dplyr::mutate(
-      international_name = ifelse(
-        international_name == "Unnamed", NA_character_, international_name
-      ),
-      international_code = stringr::str_remove_all(
-        string = international_code, pattern = "\\(|\\)"
-      ),
-      warning_start = paste0(warning_start_date, "/2021 ", warning_start_time) |>
-        strptime(format = "%m/%d/%Y %H", tz = "UTC"),
-      warning_end = paste0(warning_end_date, "/2021 ", warning_end_time) |>
-        strptime(format = "%m/%d/%Y %H", tz = "UTC"),
-      category_code = factor(
-        category_code,
-        levels = c("TD", "TS", "STS", "TY", "STY")
-      ),
       category_name = factor(
         category_code,
         levels = c("TD", "TS", "STS", "TY", "STY"),
@@ -664,30 +636,17 @@ cyclones_process_peak_2022 <- function(path_to_report) {
           "Tropical Depression", "Tropical Storm", "Severe Tropical Storm",
           "Typhoon", "Super Typhoon"
         )
+      ),
+      category_code = factor(
+        category_code,
+        levels = c("TD", "TS", "STS", "TY", "STY")
       )
     )
   
-  df_2021 <- set1_2021 |>
-    dplyr::mutate(
-      warning_start = set2_2021$warning_start,
-      warning_end = set2_2021$warning_end,
-      category_code = set2_2021$category_code,
-      category_name = set2_2021$category_name
-    ) |>
-    dplyr::select(
-      category_code, category_name, domestic_name, international_name,
-      warning_start, warning_end, peak_pressure, peak_speed
-    ) |>
-    dplyr::mutate(
-      domestic_name = stringr::str_to_title(domestic_name),
-      international_name = stringr::str_to_title(international_name)
-    )
-  
-  df_2021
+  df_2022
 }
   
-  
-  
+ 
 #'
 #' @rdname cyclones_process
 #' @export
