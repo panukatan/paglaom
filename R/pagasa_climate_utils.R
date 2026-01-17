@@ -123,6 +123,16 @@ get_weather_station_info <- function(climate_download_files,
       (\(x) x[stringr::str_detect(string = x, pattern = period)])()
   }
   
+  if (period == "2022") {
+    pdf_path <- pdf_path |>
+      grepv(pattern = "2022.pdf|OMLC", x = _, invert = TRUE)
+  }
+
+  if (period == "2023") {
+    pdf_path <- pdf_path |>
+      grepv(pattern = "2023.pdf", x = _, invert = TRUE)
+  }
+
   pdfs <- lapply(
     X = pdf_path,
     FUN = function(x) {

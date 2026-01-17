@@ -8,7 +8,7 @@ on:
 jobs:
   test-targets-climate:
     runs-on: ubuntu-latest
-    container: rocker/tidyverse:4.4.1
+    container: rocker/tidyverse:4.5.2
     steps:
       - uses: actions/checkout@v4
       

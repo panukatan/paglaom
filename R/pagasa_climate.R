@@ -1364,7 +1364,8 @@ climate_process_2021 <- function(climate_download_files) {
 climate_process_2022 <- function(climate_download_files) {
   ## Get vector of file paths for 2021 PDFS ----
   pdf_path <- climate_download_files |>
-    (\(x) x[stringr::str_detect(string = x, pattern = "2022")])()
+    (\(x) x[stringr::str_detect(string = x, pattern = "2022")])() |>
+    grepv(pattern = "2022.pdf|OMLC", x = _, invert = TRUE)
   
   ## Get weather station information ----
   station_df <- get_weather_station_info(
@@ -1716,7 +1717,8 @@ climate_process_2022 <- function(climate_download_files) {
 climate_process_2023 <- function(climate_download_files) {
   ## Get vector of file paths for 2023 PDFs ----
   pdf_path <- climate_download_files |>
-    (\(x) x[stringr::str_detect(string = x, pattern = "2023")])()
+    (\(x) x[stringr::str_detect(string = x, pattern = "2023")])() |>
+    grepv(pattern = "2023.pdf", x = _, invert = TRUE)
   
   ## Get weather station information ----
   station_df <- get_weather_station_info(

@@ -18,11 +18,14 @@ cyclones_get_report_links <- function(.url = "https://pubfiles.pagasa.dost.gov.p
   pagasa_session <- rvest::session(.url)
   
   ## Retrieve links ----
-  pagasa_session |>
+  links <- pagasa_session |>
     rvest::html_elements(css = "pre a") |>
     rvest::html_attr(name = "href") |>
     (\(x) x[stringr::str_detect(string = x, pattern = "PAGASA_ARTC")])() |>
     (\(x) paste0(.url, x))()
+
+  links |>
+    (\(x) x[grep(pattern = "compressed", x = x, invert = TRUE)])()
 }
 
 
@@ -556,6 +559,94 @@ cyclones_process_peak_2021 <- function(path_to_report) {
   df_2021
 }
 
+#'
+#' @rdname cyclones_process
+#' @export
+#'
+
+cyclones_process_peak_2022 <- function(path_to_report) {
+  df_2022 <- pdftools::pdf_data(path_to_report)
+  
+  x <- df_2022[[32]] |>
+    dplyr::filter(y %in% 419:582) |>
+    dplyr::pull(text) |>
+    (\(x) x[x != "to"])() |>
+    grepv(pattern = "\\(", x = _, invert = TRUE) |>
+    (\(x) ifelse(x == "Unnamed", NA_character_, x))() |>
+    (\(x) c(x[1:77], "18", x[78:length(x)]))() |>
+    (\(x) ifelse (x == "0921/18", "09/21", x))()
+
+  x_names <- x |>
+    (\(x) matrix(data = x[1:36], ncol = 2, byrow = FALSE))()
+
+  x_dates <- x |>
+    (\(x) matrix(data = x[37:108], ncol = 4, byrow = TRUE))()
+
+  x_values <- x |>
+    (\(x) matrix(data = x[109:144], ncol = 2, byrow = FALSE))()
+
+  y <- df_2022[[33]] |>
+    dplyr::filter(y %in% 149:312) |>
+    dplyr::pull(text) |>
+    (\(x) x[x != "to"])() |>
+    grepv(pattern = "\\(|[0-9]{1,2}d|[0-9]{1,2}h|[0-9]{1,2}.[0-9]{1,2}h", x = _, invert = TRUE) |>
+    (\(x) ifelse(x == "Unnamed", NA_character_, x))() |>
+    (\(x) c(x[1:92], "18", x[93:length(x)]))() |>
+    (\(x) c(x[1:42], "04/12", x[43:length(x)]))() |>
+    (\(x) ifelse(x == "10/18/18", "10/18", x))()
+
+  y_names <- y |>
+    (\(x) matrix(data = x[1:36], ncol = 2, byrow = FALSE))()
+
+  y_dates <- y |>
+    (\(x) matrix(data = x[37:108], ncol = 4, byrow = TRUE))()
+  
+  y_start <- paste0(
+    y_dates[ , 1], "/2022 ",
+    y_dates[ , 2] |>
+      (\(x) ifelse(grepl(pattern = "[0-9]{2}", x = x), paste0(x, "00"), x))()
+  ) |>
+    strptime(format = "%m/%d/%Y %H%M", tz = "UTC")
+
+  y_end <- paste0(
+    y_dates[ , 3], "/2022 ",
+    y_dates[ , 4] |>
+      (\(x) ifelse(grepl(pattern = "[0-9]{2}", x = x), paste0(x, "00"), x))()
+  ) |>
+    strptime(format = "%m/%d/%Y %H%M", tz = "UTC")
+
+  y_values <- y |>
+    (\(x) matrix(data = x[109:length(x)], ncol = 2, byrow = FALSE))()
+    
+  df_2022 <- tibble::tibble(
+    category_code = y_values[ , 1],
+    category_name = NA_character_,
+    domestic_name = stringr::str_to_sentence(string = x_names[ , 1]),
+    international_name = stringr::str_to_sentence(string = x_names[ , 2]),
+    warning_start = y_start,
+    warning_end = y_end,
+    peak_pressure = as.integer(x_values[ , 2]),
+    peak_speed = as.integer(x_values[ , 1])
+  ) |>
+    dplyr::mutate(
+      category_name = factor(
+        category_code,
+        levels = c("TD", "TS", "STS", "TY", "STY"),
+        labels = c(
+          "Tropical Depression", "Tropical Storm", "Severe Tropical Storm",
+          "Typhoon", "Super Typhoon"
+        )
+      ),
+      category_code = factor(
+        category_code,
+        levels = c("TD", "TS", "STS", "TY", "STY")
+      )
+    )
+  
+  df_2022
+}
+  
+ 
 #'
 #' @rdname cyclones_process
 #' @export
