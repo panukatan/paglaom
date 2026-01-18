@@ -20,7 +20,8 @@ forecasts_download_targets <- tar_plan(
       overwrite = FALSE
     ),
     pattern = map(forecasts_pubfiles_urls),
-    format = "file"
+    format = "file",
+    cue = tar_cue("always")
   ),
   ### Download PAGASA agriculture forecasts PDF ----
   tar_target(
@@ -43,11 +44,12 @@ forecasts_data_targets <- tar_plan(
     cue = tar_cue("always")
   ),
   ### Extract raw PAGASA forecasts data ----
-  tar_target(
-    name = forecasts_data_raw,
-    command = forecasts_get_data(forecasts_archive_pdfs),
-    pattern = map(forecasts_archive_pdfs)
-  ),
+  # tar_target(
+  #   name = forecasts_data_raw,
+  #   command = forecasts_get_info(forecasts_archive_pdfs),
+  #   pattern = map(forecasts_archive_pdfs),
+  #   iteration = "list"
+  # ),
   ### List PAGASA agriculture forecasts data files ----
   tar_target(
     name = forecasts_agriculture_archive_pdfs,
