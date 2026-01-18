@@ -89,6 +89,7 @@ forecasts_download <- function(.url,
   destfile
 }
 
+
 #'
 #' Process PAGASA forecasts data
 #' 
@@ -127,24 +128,94 @@ forecasts_get_data <- function(path_to_pdf) {
   )
 
   ## Add forecasts data ----
-  df <- df |>
-    data.frame(forecasts_get_weather(.text))
 
-  ## Special case for National Capital Region wind data ----
-  if ("National Capital Region" %in% regional_group$regional_group) {
+  ## Special case for 2024-09-09 NCR weather data ----
+
+  if (grepl(pattern = "2024-09-09/national-capital-region", x = path_to_pdf)) {
     df <- df |>
       data.frame(
-        forecasts_get_wind(.text) |>
+        forecasts_get_weather(.text) |>
           (\(x)
             {
-              x[10, 2] <- x[11, 1]
-              x[c(1:10, 12:13), ]
-          }
+              x[2, 1] <- x[4, 1]
+              x[3, 1] <- x[4, 1]  
+              x[5, 1] <- x[4, 1]
+              x[6, 1] <- x[4, 1]
+              x[8, 1] <- x[10, 1]
+              x[9, 1] <- x[10, 1]
+              
+              x[2, 2] <- x[4, 2]
+              x[3, 2] <- x[4, 2]
+              x[5, 2] <- x[4, 2]
+              x[6, 2] <- x[4, 2]
+              x[8, 2] <- x[10, 2]
+              x[9, 2] <- x[10, 2]
+            
+              x[1:12, ]
+            }
           )()
       )
   } else {
     df <- df |>
-      data.frame(forecasts_get_wind(.text))
+      data.frame(forecasts_get_weather(.text))
+  }
+
+  ## Special case for National Capital Region wind data ----
+  if ("National Capital Region" %in% regional_group$regional_group) {
+    if (grepl(pattern = "2024-09-09", x = path_to_pdf)) {
+      df <- df |>
+        data.frame(
+          forecasts_get_wind(.text) |>
+            (\(x)
+              {
+                x[2, 1] <- x[1, 1]
+                x[3, 1] <- x[4, 1]
+                x[4, 1] <- x[6, 1]
+                x[5, 1] <- x[6, 1]
+                x[6, 1] <- x[3, 1]
+                x[7, 1] <- x[4, 1]
+                x[12, 1] <- x[11, 1]
+              
+                x[2, 2] <- paste(x[2, 1], "southeast")
+                x[3, 2] <- x[4, 2]
+                x[4, 2] <- paste(x[2, 1], "southeast")
+                x[5, 2] <- x[7, 2]
+                x[6, 2] <- x[8, 2]
+                x[7, 2] <- x[9, 2]
+                x[8, 2] <- x[10, 2]
+                x[12, 2] <- x[11, 2]
+                
+                x[1:12, ]
+            }
+            )()
+        )
+    } else {
+      df <- df |>
+        data.frame(
+          forecasts_get_wind(.text) |>
+            (\(x)
+              {
+                x[10, 2] <- x[11, 1]
+                x[c(1:10, 12:13), ]
+              }
+            )()
+        )
+    }
+  } else {
+    if (grepl(pattern = "2024-09-14/southern-luzon", x = path_to_pdf)) {
+      df <- df |>
+        data.frame(
+          forecasts_get_wind(.text) |>
+            (\(x)
+              {
+                x[c(1:5, 7, 9:12), 1]
+              }
+            )()
+        )
+    } else {
+      df <- df |>
+        data.frame(forecasts_get_wind(.text))
+    }
   }
 
   ## Special case for Northern Luzon coastal data ----
@@ -215,6 +286,46 @@ forecasts_get_data <- function(path_to_pdf) {
 
   ## Return df ----
   df
+}
+
+#'
+#' @rdname forecasts_get
+#' @export
+#' 
+
+forecasts_get_info <- function(path_to_pdf) {
+  ## Get text from PDF ----
+  .text <- pdftools::pdf_text(pdf = path_to_pdf) |>
+    stringr::str_split(pattern = "\n") |>
+    (\(x) x[[1]])()
+
+  ## Get various identifying information for current data ----
+  regional_group <- forecasts_get_group(.text)
+  date_issued <- forecasts_get_date_issued(.text)
+  validity <- forecasts_get_validity(.text)
+  regional_group_summary <- forecasts_get_regional_summary(.text)
+
+  ## Concatenate identifiers to single data.frame ----
+  df <- data.frame(
+    regional_group, date_issued, validity, regional_group_summary,
+    geograhic_unit = which(
+      pagasa_forecast_regions$regional_grouping == regional_group$regional_group
+    ) |>
+      (\(x) pagasa_forecast_regions$geographic_unit[x])()
+  )
+
+  to_remove <- df$geograhic_unit |>
+    stringr::str_split(pattern = " ") |>
+    unlist() |>
+    unique() |>
+    (\(x) paste0("\\b", x, "\\b"))() |>
+    paste(collapse = "|")
+
+  grepv(pattern = "Weather|Wind|Coastal|[0-9]{2} - [0-9]{2}", x = .text) |>
+    (\(x) x[2:length(x)])() |>
+    gsub(pattern = to_remove, replacement = "", x = _) |>
+    trimws() |>
+    stringr::str_replace_all(pattern = "\\s{2,}", replacement = "; ")
 }
 
 #'
