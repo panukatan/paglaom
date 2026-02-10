@@ -14,15 +14,15 @@ knitr::opts_chunk$set(
 # An R workflow for curation of Philippine Atmospheric, Geophysical, and Astronomical Services Administration (PAGASA) datasets
 
 <!-- badges: start -->
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![License for code](https://img.shields.io/badge/license (for code)-GPL3.0-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
 [![License for data](https://img.shields.io/badge/license (for data)-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![test targets climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
 [![test targets cyclones](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-cyclones.yml)
 [![test targets dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml)
 [![deploy targets download](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml)
 [![deploy targets releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
-[![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
+[![DOI](https://zenodo.org/badge/782627894.svg)](https://doi.org/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
 This repository is a [`docker`](https://www.docker.com/get-started)-containerised, [`{targets}`](https://docs.ropensci.org/targets/)-based, [`{renv}`](https://rstudio.github.io/renv/articles/renv.html)-enabled [`R`](https://cran.r-project.org/) workflow for the retrieval, processing, and curation of various [Philippine Atmospheric, Geophysical, and Astronomical Services Administration (PAGASA)](https://www.pagasa.dost.gov.ph/) publicly available datasets.
@@ -93,7 +93,7 @@ paglaom
 
 ### R package dependencies
 
-This project was built using `R 4.4.1`. This project uses the `renv` framework to record R package dependencies and versions. Packages and versions used are recorded in `renv.lock` and code used to manage dependencies is in `renv/` and other files in the root project directory. After cloning this repository, start an R session in the project's working directory and then run 
+This project was built using `R 4.5.2`. This project uses the `renv` framework to record R package dependencies and versions. Packages and versions used are recorded in `renv.lock` and code used to manage dependencies is in `renv/` and other files in the root project directory. After cloning this repository, start an R session in the project's working directory and then run 
 
 ```R
 renv::restore()
