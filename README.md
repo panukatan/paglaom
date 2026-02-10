@@ -5,13 +5,13 @@
 
 <!-- badges: start -->
 
-[![License for
-code](https://img.shields.io/badge/license%20\(for%20code\)-GPL3.0-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
-[![License for
-data](https://img.shields.io/badge/license%20\(for%20data\)-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![License for
+code](https://img.shields.io/badge/license%20(for%20code)-GPL3.0-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
+[![License for
+data](https://img.shields.io/badge/license%20(for%20data)-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![test targets
 climate](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/test-targets-climate.yml)
 [![test targets
@@ -22,7 +22,7 @@ dam](https://github.com/panukatan/paglaom/actions/workflows/test-targets-dam.yml
 download](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-downloads.yml)
 [![deploy targets
 releases](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml/badge.svg)](https://github.com/panukatan/paglaom/actions/workflows/deploy-targets-releases.yml)
-[![DOI](https://zenodo.org/badge/782627894.svg)](https://zenodo.org/doi/10.5281/zenodo.10934146)
+[![DOI](https://zenodo.org/badge/782627894.svg)](https://doi.org/10.5281/zenodo.10934146)
 <!-- badges: end -->
 
 This repository is a
@@ -57,17 +57,16 @@ expansive datasets through a specific data request process. The
 `paglaom` project aims to showcase publicly available PAGASA data that
 can be used for various purposes some of which are:
 
-  - for students who need to make a report on topics covered by PAGASA’s
-    summarised data for a school assignment or project;
+- for students who need to make a report on topics covered by PAGASA’s
+  summarised data for a school assignment or project;
 
-  - for individuals who have specific interest in one of the natural
-    phenomena that PAGASA monitors and would like to get raw summarised
-    data in a format that is usable and transferrable into other
-    formats;
+- for individuals who have specific interest in one of the natural
+  phenomena that PAGASA monitors and would like to get raw summarised
+  data in a format that is usable and transferrable into other formats;
 
-  - for data visualisation learners and aficionados who want to try on
-    working on data about the various natural phenomena available from
-    PAGASA and create unique and interesting plots and graphics.
+- for data visualisation learners and aficionados who want to try on
+  working on data about the various natural phenomena available from
+  PAGASA and create unique and interesting plots and graphics.
 
 The broader and more blue skies vision of the `paglaom` project is to
 contribute to the increasing interest in science, technology,
@@ -102,58 +101,58 @@ The project repository is structured as follows:
         |-- _targets_setup.R
         |-- _targets.R
 
-  - `.github` contains project testing and automated deployment of
-    outputs workflows via continuous integration and continuous
-    deployment (CI/CD) using Github Actions.
+- `.github` contains project testing and automated deployment of outputs
+  workflows via continuous integration and continuous deployment (CI/CD)
+  using Github Actions.
 
-  - `data/` contains intermediate and final data outputs produced by the
-    workflow.
+- `data/` contains intermediate and final data outputs produced by the
+  workflow.
 
-  - `data-raw/` contains raw datasets downloaded from publicly available
-    PAGASA sources that are used in the project. This directory is empty
-    given that the raw datasets from PAGASA are in large file size
-    formats that are not ideal for git versioning hence they are git
-    ignored. This directory is kept here to maintain reproducibility of
-    project directory structure and ensure that the workflow runs as
-    expected when run locally.
+- `data-raw/` contains raw datasets downloaded from publicly available
+  PAGASA sources that are used in the project. This directory is empty
+  given that the raw datasets from PAGASA are in large file size formats
+  that are not ideal for git versioning hence they are git ignored. This
+  directory is kept here to maintain reproducibility of project
+  directory structure and ensure that the workflow runs as expected when
+  run locally.
 
-  - `outputs/` contains compiled reports and figures produced by the
-    workflow.
+- `outputs/` contains compiled reports and figures produced by the
+  workflow.
 
-  - `R/` contains functions developed/created specifically for use in
-    this workflow.
+- `R/` contains functions developed/created specifically for use in this
+  workflow.
 
-  - `reports/` contains literate code for R Markdown reports rendered in
-    the workflow.
+- `reports/` contains literate code for R Markdown reports rendered in
+  the workflow.
 
-  - `renv/` contains `renv` package specific files and directories used
-    by the package for maintaining R package dependencies within the
-    project. The directory `renv/library`, is a library that contains
-    all packages currently used by the project. This directory, and all
-    files and sub-directories within it, are all generated and managed
-    by the `renv` package. Users should not change/edit these manually.
+- `renv/` contains `renv` package specific files and directories used by
+  the package for maintaining R package dependencies within the project.
+  The directory `renv/library`, is a library that contains all packages
+  currently used by the project. This directory, and all files and
+  sub-directories within it, are all generated and managed by the `renv`
+  package. Users should not change/edit these manually.
 
-  - `renv.lock` file is the `renv` lockfile which records enough
-    metadata about every package used in this project that it can be
-    re-installed on a new machine. This file is generated by the `renv`
-    package and should not be changed/edited manually.
+- `renv.lock` file is the `renv` lockfile which records enough metadata
+  about every package used in this project that it can be re-installed
+  on a new machine. This file is generated by the `renv` package and
+  should not be changed/edited manually.
 
-  - `.Rprofile` file is a project R profile generated when initiating
-    `renv` for the first time. This file is run automatically every time
-    R is run within this project, and `renv` uses it to configure the R
-    session to use the `renv` project library.
+- `.Rprofile` file is a project R profile generated when initiating
+  `renv` for the first time. This file is run automatically every time R
+  is run within this project, and `renv` uses it to configure the R
+  session to use the `renv` project library.
 
-  - `packages.R` file lists out all R package dependencies required by
-    the workflow.
+- `packages.R` file lists out all R package dependencies required by the
+  workflow.
 
-  - `_targets*.R` files define the steps in the workflow’s data ingest,
-    data processing, data analysis, and reporting pipelines.
+- `_targets*.R` files define the steps in the workflow’s data ingest,
+  data processing, data analysis, and reporting pipelines.
 
 ## Reproducibility
 
 ### R package dependencies
 
-This project was built using `R 4.4.1`. This project uses the `renv`
+This project was built using `R 4.5.2`. This project uses the `renv`
 framework to record R package dependencies and versions. Packages and
 versions used are recorded in `renv.lock` and code used to manage
 dependencies is in `renv/` and other files in the root project
@@ -184,33 +183,39 @@ Currently, the project has workflows that curate the following datasets:
 
 The following diagram illustrates these workflows
 
+Warning: program compiled against libxml 213 using older 209 +
+forecasts_download_files declared \[5 branches\] +
+cyclone_reports_download_files declared \[6 branches\] +
+climate_pdf_urls declared \[5 branches\] + heat_index_download_files
+declared \[4 branches\] + climate_download_files declared \[5 branches\]
+
 ``` mermaid
 graph LR
   style Graph fill:#FFFFFF00,stroke:#000000;
   subgraph Graph
     direction LR
-    x28812d8ea4d86f19(["forecasts_archive_pdfs"]):::outdated --> xcfcf871ca951fc3f["forecasts_data_raw"]:::outdated
-    x567709ab5f0adc71(["heat_index_pubfiles_url"]):::uptodate --> x56bd7c118ed46a38(["heat_index_links"]):::outdated
-    xb48a3b157c96bffd(["climate_pubfiles_url"]):::uptodate --> xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate
-    xc77bb431ac7c3081(["dam_level_url"]):::uptodate --> x0de96327cc07b160(["dam_level_data"]):::outdated
-    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated
-    xa37a01adfb45bd68(["climate_directory_urls"]):::uptodate --> x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate
-    x6f87cfcc96bb274d(["cyclone_reports_links"]):::outdated --> x1cf596d0c4f824b5["cyclone_reports_download_files"]:::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x42da7c0722c063a6(["climate_data_normals_1991_2020"]):::outdated
-    x56bd7c118ed46a38(["heat_index_links"]):::outdated --> x113a83dcec46090f(["heat_index_links_urls"]):::outdated
-    xc11d790635c14420(["forecasts_pubfiles_urls"]):::uptodate --> x7dd7e06e8ff4bc40["forecasts_download_files"]:::uptodate
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xe06460aefd475ca2(["climate_data_extremes_2020"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xc83b489a1c433852(["climate_data_extremes_2021"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> x9b64b30afbfc8ff9(["climate_data_extremes_2022"]):::outdated
-    xc044beb81380bb4a["climate_download_files"]:::uptodate --> xf620d5783ff15609(["climate_data_extremes_2023"]):::outdated
-    x7255575025352eb6(["dam_level_data_files"]):::uptodate --> xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate
-    x26b861c7a0a21b52["climate_pdf_urls"]:::uptodate --> xc044beb81380bb4a["climate_download_files"]:::uptodate
-    xc432bd4e21a7b9fa(["heat_index_links_dates"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
-    x113a83dcec46090f(["heat_index_links_urls"]):::outdated --> x4f749438c4164b8e["heat_index_download_files"]:::outdated
-    xd2c3c65ab78d2c70(["dam_level_data_processed"]):::uptodate --> xfa0b497de91938bb(["dam_level_data_csv"]):::uptodate
-    x0de96327cc07b160(["dam_level_data"]):::outdated --> x202d34e7af3ea1c1(["dam_level_data_raw_csv"]):::outdated
-    x6e2ddacb746493ac(["forecasts_agriculture_archive_pdfs"]):::uptodate --> x6e2ddacb746493ac(["forecasts_agriculture_archive_pdfs"]):::uptodate
-    x4b1f33bb14e8a195(["forecasts_agriculture_download_files"]):::outdated --> x4b1f33bb14e8a195(["forecasts_agriculture_download_files"]):::outdated
+    x8d6dd4935334fdb0["climate_download_files"]:::outdated --> x6140ccf982d3c194(["climate_data_extremes_2020"]):::outdated
+    x8d6dd4935334fdb0["climate_download_files"]:::outdated --> x473bf491133a7469(["climate_data_extremes_2021"]):::outdated
+    x8d6dd4935334fdb0["climate_download_files"]:::outdated --> x4c23adf6b8b844fc(["climate_data_extremes_2022"]):::outdated
+    x8d6dd4935334fdb0["climate_download_files"]:::outdated --> xbd0d87e3059ade21(["climate_data_extremes_2023"]):::outdated
+    x8d6dd4935334fdb0["climate_download_files"]:::outdated --> x4613b03fe04d7349(["climate_data_normals_1991_2020"]):::outdated
+    xab7eee1b2e061cd6(["climate_pubfiles_url"]):::outdated --> x8eff01740c695153(["climate_directory_urls"]):::outdated
+    x6dac381473a34b9b["climate_pdf_urls"]:::outdated --> x8d6dd4935334fdb0["climate_download_files"]:::outdated
+    x8eff01740c695153(["climate_directory_urls"]):::outdated --> x6dac381473a34b9b["climate_pdf_urls"]:::outdated
+    xe3caf2708d1d6dbd(["cyclone_reports_links"]):::outdated --> xc740241bf91f6d15["cyclone_reports_download_files"]:::outdated
+    x9edcec25e3f6632a(["dam_level_url"]):::outdated --> x348d87801300ab37(["dam_level_data"]):::outdated
+    xb06f2f43d869006d(["dam_level_data_processed"]):::outdated --> xd34352c7f528a9bd(["dam_level_data_csv"]):::outdated
+    xc84ea619aacf6414(["dam_level_data_files"]):::outdated --> xb06f2f43d869006d(["dam_level_data_processed"]):::outdated
+    x348d87801300ab37(["dam_level_data"]):::outdated --> xa20495ab08a6ee03(["dam_level_data_raw_csv"]):::outdated
+    x6d73550dd73502d5(["forecasts_pubfiles_urls"]):::uptodate --> xb1dd740dbda14dc7["forecasts_download_files"]:::outdated
+    x4eb137467026404e(["heat_index_links_dates"]):::outdated --> xcedf87332b7ffc06["heat_index_download_files"]:::outdated
+    xa81591ca0f225a93(["heat_index_links_urls"]):::outdated --> xcedf87332b7ffc06["heat_index_download_files"]:::outdated
+    x98cb4933c55c918b(["heat_index_pubfiles_url"]):::outdated --> x3e4a66ee3e59e27e(["heat_index_links"]):::outdated
+    x3e4a66ee3e59e27e(["heat_index_links"]):::outdated --> x4eb137467026404e(["heat_index_links_dates"]):::outdated
+    x3e4a66ee3e59e27e(["heat_index_links"]):::outdated --> xa81591ca0f225a93(["heat_index_links_urls"]):::outdated
+    xfcfe66c812f52e12(["forecasts_agriculture_archive_pdfs"]):::uptodate
+    x63842c45be329607(["forecasts_agriculture_download_files"]):::outdated
+    x0e87409a9b936a1b(["forecasts_archive_pdfs"]):::outdated
   end
 ```
 
@@ -269,18 +274,21 @@ will run all targets in the cyclones and dam levels data workflow.
 The project also has a workflow for weekly GitHub release of the various
 raw datasets.
 
+Warning: program compiled against libxml 213 using older 209
+
 ``` mermaid
 graph LR
   style Graph fill:#FFFFFF00,stroke:#000000;
   subgraph Graph
     direction LR
-    x8e2305bde709e13c(["paglaom_weekly_release_tag"]):::outdated --> x2ee1cead5469690e(["paglaom_weekly_release"]):::outdated
+    x974e517bdbf7f743(["paglaom_weekly_release_tag"]):::outdated --> x1990b552c5da4b8b(["paglaom_weekly_release"]):::outdated
+    
   end
 ```
 
 ## Author
 
-  - [Ernest Guevarra](https://github.com/ernestguevarra)
+- [Ernest Guevarra](https://github.com/ernestguevarra)
 
 ## Licenses
 
